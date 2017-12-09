@@ -45,7 +45,8 @@
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".EventAdapter" />
         <activity android:name=".Comment" />
-        <activity android:name=".CommentList"></activity>
+        <activity android:name=".CommentList" />
+        <activity android:name=".CustomCommentAdapter"></activity>
     </application>
 
 </manifest>

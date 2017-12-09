@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.support.v7.widget.Toolbar;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -148,6 +149,12 @@ public class MainActivity extends AppCompatActivity
                 */
             }
             });
+
+            //creating the commentAdapter
+            CommentList commentList = new CommentList("aaa", new ArrayList<Comment>());
+            creatinCommentAdapter(commentList);
+
+
         }
 
         @Override
@@ -219,6 +226,22 @@ public class MainActivity extends AppCompatActivity
                 return super.onOptionsItemSelected(item);
         }
 
+    }
+
+
+
+    public void creatinCommentAdapter(CommentList commentList){
+     //   CommentList commentList = new CommentList("aaa", new ArrayList<Comment>()); /////
+        ListAdapter commentAdapter = new CustomCommentAdapter(this, commentList);
+        ListView commentListView = findViewById(R.id.event_layout);
+        commentListView.setAdapter(commentAdapter);
+    }
+
+    public void creatinCommentAdapter(String string, ArrayList<Comment> commentAList){
+        CommentList commentList = new CommentList(string, commentAList); /////
+        ListAdapter commentAdapter = new CustomCommentAdapter(this, commentList);
+        ListView commentListView = findViewById(R.id.event_layout);
+        commentListView.setAdapter(commentAdapter);
     }
 
 
