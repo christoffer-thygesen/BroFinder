@@ -13,12 +13,15 @@ public class EventUpdater {
 
     private Activity activity;
     private ListView eventListView;
+    private EventAdapter eventAdapter;
     private ArrayList<Event> eventArray;
 
     public EventUpdater(Activity activity, ListView eventListView) {
         this.activity = activity;
         this.eventListView = eventListView;
         eventArray = new ArrayList<>();
+        eventAdapter = new EventAdapter(activity, eventArray);
+        eventListView.setAdapter(eventAdapter);
     }
 
     public void addEvent(Event event) {
@@ -35,6 +38,18 @@ public class EventUpdater {
                     if(item.getId().equals(event.getId())) {
                         //found correct event
                         //do the stuff that changes the data here
+                        item.setId(event.getId());
+                        item.setTitle(event.getTitle());
+                        item.setDesc(event.getDesc());
+                        item.setCommentsID(event.getCommentsID());
+                        item.setCreator(event.getCreator());
+                        item.setDay(event.getDay());
+                        item.setMonth(event.getMonth());
+                        item.setYear(event.getYear());
+                        item.setHour(event.getHour());
+                        item.setMinute(event.getMinute());
+                        item.setLocation_Lat(event.getLocation_Lat());
+                        item.setLocation_Lng(event.getLocation_Lng());
                     }
                 }
             }
