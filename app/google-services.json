@@ -1,0 +1,123 @@
+{
+  "project_info": {
+    "project_number": "178519433008",
+    "firebase_url": "https://bro-finder-f9974.firebaseio.com",
+    "project_id": "bro-finder-f9974",
+    "storage_bucket": "bro-finder-f9974.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178519433008:android:c4533b79f6de39c1",
+        "android_client_info": {
+          "package_name": "memelord.com.bro_finder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178519433008-vg12ske4th0qv0ljr7b6s53kss070mkg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "memelord.com.bro_finder",
+            "certificate_hash": "ecfb4b02a009145f18b0b5bd9b900abaf9be913a"
+          }
+        },
+        {
+          "client_id": "178519433008-bcvj6q2hqprhv4u2rt8hesdn71hcgb52.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "memelord.com.bro_finder",
+            "certificate_hash": "f7dbb0bfe99bb143eb6bca236fdd2ffeb8e0a74b"
+          }
+        },
+        {
+          "client_id": "178519433008-e8tn5dhlbkuik6vn4eo4l0omid1dd73j.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "memelord.com.bro_finder",
+            "certificate_hash": "228f94000a0854ae30cf45964a8cdc7e23138d97"
+          }
+        },
+        {
+          "client_id": "178519433008-m4jfs1nd9femjfn2mhh5qur6d873vtug.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "memelord.com.bro_finder",
+            "certificate_hash": "53ee20113f3d8eefe8442fb99de4a1a6ba8fae8a"
+          }
+        },
+        {
+          "client_id": "178519433008-geb8lnc2lnll08h7knchq4jpgts7n038.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD--azcPwxgyCch22_jm_fKUNEe9aB5zFo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178519433008-geb8lnc2lnll08h7knchq4jpgts7n038.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:178519433008:android:dc9abba1bb552b2a",
+        "android_client_info": {
+          "package_name": "mike.magic.com.brofinder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "178519433008-h40bdji0chf0mdtki6a5rfptdcc0tekf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mike.magic.com.brofinder",
+            "certificate_hash": "f7dbb0bfe99bb143eb6bca236fdd2ffeb8e0a74b"
+          }
+        },
+        {
+          "client_id": "178519433008-geb8lnc2lnll08h7knchq4jpgts7n038.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD--azcPwxgyCch22_jm_fKUNEe9aB5zFo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "178519433008-geb8lnc2lnll08h7knchq4jpgts7n038.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

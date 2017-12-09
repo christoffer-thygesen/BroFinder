@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="55dp"
+    android:layout_gravity="top"
+    android:layout_width="match_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginTop="5dp">
+
+    <TextView
+        android:id="@+id/Creator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="1"
+        android:clickable="false"
+        android:visibility="invisible" />
+
+    <CheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/Creator"
+        android:layout_alignTop="@+id/Creator"
+        android:gravity="center" />
+
+    <TextView
+        android:id="@+id/myEventsTitle"
+        android:layout_width="100dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@+id/Creator"
+        android:background="#adadad"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:text="title"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/myEventsDescription"
+        android:layout_width="160dp"
+        android:layout_height="25dp"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/myEventsTitle"
+        android:background="#ffafaf"
+        android:gravity="center"
+        android:text="Description"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/myEventsDate"
+        android:layout_width="60dp"
+        android:layout_height="25dp"
+
+        android:layout_alignStart="@+id/myEventsTitle"
+        android:layout_below="@+id/myEventsTitle"
+        android:background="#adadad"
+        android:gravity="center"
+        android:text="Date"
+        android:textSize="12dp" />
+
+    <TextClock
+        android:id="@+id/myEventsTimestamp"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
+
+        android:layout_below="@+id/myEventsTitle"
+        android:layout_toEndOf="@+id/myEventsDate"
+        android:background="#fdadad"
+        android:gravity="center"
+        android:text="clock"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/myEventsLocation"
+        android:layout_width="160dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/myEventsDescription"
+        android:layout_toEndOf="@+id/myEventsTitle"
+        android:background="#adadad"
+        android:gravity="center"
+        android:text="Location"
+        android:textSize="12dp" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/myEventsDescription"
+        android:src="@drawable/eventparticipantslogo"
+        android:textSize="12dp" />
+
+    <TextView
+        android:id="@+id/MyEventsNumberOfParticipants"
+        android:layout_width="50dp"
+        android:layout_height="25dp"
+        android:layout_alignStart="@+id/MyEventsNumberOfComments"
+        android:layout_below="@+id/MyEventsNumberOfComments"
+        android:background="#fdadad"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:text="#"
+        android:textSize="12dp" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_below="@+id/imageView"
+        android:layout_toEndOf="@+id/myEventsDescription"
+        android:src="@drawable/commentsicon"
+        android:textSize="12dp" />
+
+
+    <TextView
+        android:id="@+id/MyEventsNumberOfComments"
+        android:layout_width="50dp"
+
+        android:layout_height="25dp"
+
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/imageView"
+        android:background="#adadad"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:text="#"
+        android:textSize="12dp" />
+</RelativeLayout>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="entries">
+        <item>entry1</item>
+        <item>entry2</item>
+    </string-array>
+    <string-array name="EntryValues">
+        <item>value1</item>
+        <item>value2</item>
+    </string-array>
+
+    <string-array name="pref_syncConnectionTypes_entries">
+        empty1
+
+    </string-array>
+
+    <string-array name="pref_syncConnectionTypes_default">
+        empty1
+
+    </string-array>
+</resources>
