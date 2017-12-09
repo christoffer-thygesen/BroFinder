@@ -145,24 +145,6 @@ public class CreateEventActivity extends AppCompatActivity {
         }
     }
 
-    private void AddEvent(String title, String creator, Calendar calendar, Place location) {
-
-        if(!validateForm()) { return; }
-
-        FirebaseUser user = broAuth.getCurrentUser();
-//
-//        id;
-//        desc;
-//        commentsID;
-//        creator;
-//        myCalendar;
-//        location;
-
-        Event event = new Event(null, null, null, null, null,
-                0, 0,0,0,0,0,0);
-        //databaseManager.addEvent(event);
-    }
-
     private boolean validateForm() {
         return true;
     }

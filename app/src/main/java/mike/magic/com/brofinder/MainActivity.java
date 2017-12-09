@@ -33,6 +33,14 @@ import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
@@ -42,6 +50,7 @@ import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListe
 import java.io.FileDescriptor;
 import java.io.PrintWriter;
 import java.sql.Connection;
+
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
@@ -52,15 +61,10 @@ public class MainActivity extends AppCompatActivity
         implements ConnectionCallbacks, OnConnectionFailedListener{
 
     private DatabaseManager databaseManager;
-
     private android.support.v7.widget.Toolbar brobar;
-
     private ListView eventListView;
-
     private SeekBar searchRadius;
-
     private TextView searchRadiusText;
-
     private GoogleApiClient broGoogleApiClient;
     private LocationManager locationManager; //NEEDED?
 
@@ -103,8 +107,13 @@ public class MainActivity extends AppCompatActivity
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
                     Toast.LENGTH_SHORT).show();
+<<<<<<< HEAD
 
         }
+=======
+        }*/
+
+>>>>>>> 4d4ef8efcd22615eca061607c19aa26f6cb0fbfe
         final ListView events = findViewById(R.id.eventList);
         final ArrayList<Event> eventsListing = new ArrayList<>();
         final EventAdapter myAdapter2 = new EventAdapter(this, eventsListing);
@@ -123,7 +132,7 @@ public class MainActivity extends AppCompatActivity
 
         //init databaseManager
         databaseManager = DatabaseManager.getInstance(this);
-        //databaseManager.initialize(this, eventListView);
+        databaseManager.initialize(this, eventListView);
 
         android.support.v7.widget.Toolbar brobar = (Toolbar)findViewById(R.id.toptoolbar);
         setSupportActionBar(brobar);
