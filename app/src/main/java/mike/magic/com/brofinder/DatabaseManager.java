@@ -53,10 +53,12 @@ public class DatabaseManager implements ChildEventListener {
         databaseUsers = firebaseDatabase.getReference("Users");
         databaseEvents = firebaseDatabase.getReference("Events");
         databaseComments = firebaseDatabase.getReference("Comments");
+
         databaseUsers.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 User user = dataSnapshot.getValue(User.class);
+                Log.d("TESTING", user.getId() + "");
             }
 
             @Override
@@ -83,7 +85,6 @@ public class DatabaseManager implements ChildEventListener {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Event event = dataSnapshot.getValue(Event.class);
-
                 if(eventUpdater != null) {
                     eventUpdater.addEvent(event);
                 } else {
