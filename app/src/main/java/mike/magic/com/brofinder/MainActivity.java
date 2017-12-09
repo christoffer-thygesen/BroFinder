@@ -45,6 +45,9 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
+import static android.location.Criteria.ACCURACY_COARSE;
+import static android.location.Criteria.ACCURACY_FINE;
+
 public class MainActivity extends AppCompatActivity
         implements ConnectionCallbacks, OnConnectionFailedListener{
 
@@ -60,15 +63,18 @@ public class MainActivity extends AppCompatActivity
 
     private GoogleApiClient broGoogleApiClient;
 
+    private LocationManager locationManager; //NEEDED?
+
     //temp longtitude and latitude text fields
 
     private TextView myLongtitude;
     private TextView myLatitude;
     String myLat = null;
     String myLong = null;
-
+    public String broProvider;
     String TAG = "GoogleMapsAPI";
 
+    //https://www.mytrendin.com/display-location-save-firebase-database/  how to store location in firebase
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,21 +82,37 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         //initialize long + lat textviews
+        /*
         myLongtitude = findViewById(R.id.myLongtitude);
         myLatitude = findViewById(R.id.myLatitude);
-
+        myLatitude.setText("Latitude: " + myLat);
+        myLongtitude.setText("Longtitude: " + myLong);
+*/
         buildGoogleAPIClient();
+/*
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+
             Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
+
             myLat = String.valueOf(broLocation.getLatitude());
             myLong = String.valueOf(broLocation.getLongitude());
+            */
+            myLatitude = findViewById(R.id.myLatitude);
+            myLongtitude = findViewById(R.id.myLongtitude);
             myLatitude.setText("Latitude: " + myLat);
             myLongtitude.setText("Longtitude: " + myLong);
+            /*
 
+            Toast.makeText( MainActivity.this, "GPS is on!",
+                    Toast.LENGTH_SHORT).show();
         }
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
+                    Toast.LENGTH_SHORT).show();
 
-
+        }*/
         final ListView events = findViewById(R.id.eventList);
         final ArrayList<Event> eventsListing = new ArrayList<>();
         final EventAdapter myAdapter2 = new EventAdapter(this, eventsListing);
@@ -122,6 +144,8 @@ public class MainActivity extends AppCompatActivity
         searchRadiusText.setText("Distance " + searchRadius.getProgress() + " Km");
         searchRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 10; //default value 10 km
+           // Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
+            //Location eventLocation =?
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 progress = progressValue;
@@ -138,6 +162,7 @@ public class MainActivity extends AppCompatActivity
                 searchRadiusText.setText("Distance " + progress + " km");
                 //set new radius by method & call recreate()?
 
+                //getDistanceShow();
                 /*
 
                 loc1.getLatitude();
@@ -167,7 +192,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onConnected(Bundle connectionHint) {
 
-            if (ContextCompat.checkSelfPermission(this,
+        /*    if (ContextCompat.checkSelfPermission(this,
                     android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 Location broLastLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
 
@@ -183,9 +208,12 @@ public class MainActivity extends AppCompatActivity
                     myLong = String.valueOf(broLastLocation.getLongitude());
                     myLatitude.setText("Latitude: " + myLat);
                     myLongtitude.setText("Longtitude: " + myLong);
+
+                    Toast.makeText( MainActivity.this, "NULL values",
+                            Toast.LENGTH_SHORT).show();
                 }
 
-            }
+            }*/
         }
 
     @Override
@@ -242,14 +270,6 @@ public class MainActivity extends AppCompatActivity
         searchRadiusText = findViewById(R.id.searchRadiusUnits);
     }
 
-    public void getNewLocation(){
-
-    }
-
-    public Location makeUseOfNewLocation(Location location){
-        Location newLocation = location;
-        return newLocation;
-    }
 
 public synchronized void buildGoogleAPIClient(){
         broGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -258,4 +278,11 @@ public synchronized void buildGoogleAPIClient(){
                 .addApi(LocationServices.API)
                 .build();
             }
+
+    public void getDistanceShow(Location broLocation, Location eventLocation,int progress){
+    //for(int i = 0; i<allevents;i++){}
+    if(broLocation.distanceTo(eventLocation)<=progress){
+        //show on list Event[i]
+    }
+    }
         }
