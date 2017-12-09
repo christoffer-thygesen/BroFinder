@@ -77,7 +77,9 @@ public class MainActivity extends AppCompatActivity
     public String broProvider;
     String TAG = "GoogleMapsAPI";
 
-    //https://www.mytrendin.com/display-location-save-firebase-database/  how to store location in firebase
+    //https://stackoverflow.com/questions/42744977/onlocationchanged-getting-called-once-android-studio --use for setting onLocationUpdate
+
+    //https://www.mytrendin.com/display-location-save-firebase-database/  how to store location in firebase --use for reading/writing to database
 
 
     @Override
@@ -102,18 +104,19 @@ public class MainActivity extends AppCompatActivity
 
             Toast.makeText( MainActivity.this, "GPS is on!",
                     Toast.LENGTH_SHORT).show();
+
         }
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
                     Toast.LENGTH_SHORT).show();
-<<<<<<< HEAD
+
 
         }
-=======
-        }*/
 
->>>>>>> 4d4ef8efcd22615eca061607c19aa26f6cb0fbfe
+
+
+
         final ListView events = findViewById(R.id.eventList);
         final ArrayList<Event> eventsListing = new ArrayList<>();
         final EventAdapter myAdapter2 = new EventAdapter(this, eventsListing);
@@ -286,4 +289,7 @@ public synchronized void buildGoogleAPIClient(){
         //show on list Event[i]
     }
     }
+
+
+
         }
