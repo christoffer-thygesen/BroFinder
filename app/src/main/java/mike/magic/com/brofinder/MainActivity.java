@@ -1,7 +1,16 @@
 package mike.magic.com.brofinder;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.provider.ContactsContract;
+import android.support.annotation.NonNull;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,33 +23,75 @@ import android.support.v7.widget.Toolbar;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.common.api.Api;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
+import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
+
+import java.io.FileDescriptor;
+import java.io.PrintWriter;
+import java.sql.Connection;
+
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+public class MainActivity extends AppCompatActivity
+        implements ConnectionCallbacks, OnConnectionFailedListener{
 
     private DatabaseManager databaseManager;
-
     private android.support.v7.widget.Toolbar brobar;
-
     private ListView eventListView;
-
     private SeekBar searchRadius;
-
     private TextView searchRadiusText;
+    private GoogleApiClient broGoogleApiClient;
+
+    //temp longtitude and latitude text fields
+
+    private TextView myLongtitude;
+    private TextView myLatitude;
+    String myLat = null;
+    String myLong = null;
+
+    String TAG = "GoogleMapsAPI";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //initialize long + lat textviews
+        myLongtitude = findViewById(R.id.myLongtitude);
+        myLatitude = findViewById(R.id.myLatitude);
+
+        buildGoogleAPIClient();
+        if (ContextCompat.checkSelfPermission(this,
+                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
+            myLat = String.valueOf(broLocation.getLatitude());
+            myLong = String.valueOf(broLocation.getLongitude());
+            myLatitude.setText("Latitude: " + myLat);
+            myLongtitude.setText("Longtitude: " + myLong);
+
+        }
 
         final ListView events = findViewById(R.id.eventList);
         final ArrayList<Event> eventsListing = new ArrayList<>();
@@ -88,9 +139,67 @@ public class MainActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
                 searchRadiusText.setText("Distance " + progress + " km");
                 //set new radius by method & call recreate()?
+
+                /*
+
+                loc1.getLatitude();
+                loc1.getLongitude();
+
+                loc1.distanceTo(events);
+                if(loc1.distanceTo(events)<= progress)
+                */
             }
-        });
+            });
+        }
+
+        @Override
+        protected void onStart(){
+        super.onStart();
+        broGoogleApiClient.connect();
+        }
+
+        @Override
+        protected void onStop() {
+        super.onStop();
+        if(broGoogleApiClient.isConnected()) {
+            broGoogleApiClient.disconnect();
+        }
+        }
+
+        @Override
+        public void onConnected(Bundle connectionHint) {
+
+            if (ContextCompat.checkSelfPermission(this,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                Location broLastLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
+
+                if(ContextCompat.checkSelfPermission(this,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                    Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
+                            Toast.LENGTH_SHORT).show();
+
+                }
+
+                if (broLastLocation != null) {
+                    myLat = String.valueOf(broLastLocation.getLatitude());
+                    myLong = String.valueOf(broLastLocation.getLongitude());
+                    myLatitude.setText("Latitude: " + myLat);
+                    myLongtitude.setText("Longtitude: " + myLong);
+                }
+
+            }
+        }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        Log.i(TAG, "Connection suspended");
+        broGoogleApiClient.connect();
     }
+
+        @Override
+        public void onConnectionFailed(ConnectionResult result) {
+        Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() =" + result.getErrorCode());
+        }
 
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.main_menu,menu);
@@ -134,4 +243,21 @@ public class MainActivity extends AppCompatActivity {
         searchRadius = findViewById(R.id.searchRadius);
         searchRadiusText = findViewById(R.id.searchRadiusUnits);
     }
-}
+
+    public void getNewLocation(){
+
+    }
+
+    public Location makeUseOfNewLocation(Location location){
+        Location newLocation = location;
+        return newLocation;
+    }
+
+public synchronized void buildGoogleAPIClient(){
+        broGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+            }
+        }
