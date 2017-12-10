@@ -101,12 +101,12 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
-
+            //no method for status changed
             }
 
             @Override
             public void onProviderEnabled(String s) {
-
+            //no method for provider enabled
             }
 
             @Override
@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity
             }
             return;
         }
+
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
@@ -153,18 +154,14 @@ public class MainActivity extends AppCompatActivity
             myLatitude.setText("Latitude: " + myLat);
             myLongtitude.setText("Longtitude: " + myLong);
 
-
             Toast.makeText( MainActivity.this, "GPS is on!",
                     Toast.LENGTH_SHORT).show();
-
         }
 
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
                     Toast.LENGTH_SHORT).show();
-
-
         }
 
 
@@ -196,20 +193,19 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
                 searchRadiusText.setText("Distance " + progress + " km");
-                //set new radius by method & call recreate()?
-                //Location broLocation =
-                //getDistanceShow();
+                //EventUpdater.EventUpdater(this,eventListView);
 
-                /*
+                if (ContextCompat.checkSelfPermission(MainActivity.this,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
+                    Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
 
+                //broLocation.distanceTo();
+                //if(broLocation.distanceTo()<= progress){
+                //}
 
-                loc1.distanceTo(events);
-                if(loc1.distanceTo(events)<= progress)
-                */
             }
-            });
-        }
+            }});}
 
         @Override
         protected void onStart(){
