@@ -8,7 +8,9 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.provider.ContactsContract;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
@@ -68,7 +70,7 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient broGoogleApiClient;
     private LocationManager locationManager; //NEEDED?
     //temp longtitude and latitude text fields
-
+    private LocationListener broListener;
     private TextView myLongtitude;
     private TextView myLatitude;
     double myLat;
@@ -85,7 +87,35 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
+        broListener = new LocationListener(){
+            @Override
+            public void onLocationChanged(Location location) {
+                myLong = location.getLongitude();
+                myLat = location.getLatitude();
+                myLatitude.setText("Latitude: " + myLat);
+                myLongtitude.setText("Longtitude: " + myLong);
+
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+                Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                startActivity(i);
+            }
+        };
 
 
         eventListView = findViewById(R.id.eventList);
@@ -100,16 +130,23 @@ public class MainActivity extends AppCompatActivity
 
         //initialize long + lat textviews
 
-
-
         buildGoogleAPIClient();
 
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
+               android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
+                                android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.INTERNET}
+                        ,10);
+            }
+            return;
+        }
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
-
-
+            locationManager.requestLocationUpdates("gps", 5000, 0, broListener);
            // myLong = String.valueOf(broLocation.getLongitude());
             myLatitude = findViewById(R.id.myLatitude);
             myLongtitude = findViewById(R.id.myLongtitude);
@@ -121,6 +158,7 @@ public class MainActivity extends AppCompatActivity
                     Toast.LENGTH_SHORT).show();
 
         }
+
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
@@ -195,8 +233,9 @@ public class MainActivity extends AppCompatActivity
             broLocationRequest.setInterval(100);
             broLocationRequest.setFastestInterval(101);
             broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
             if(ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
             //    LocationServices.FusedLocationApi.requestLocationUpdates(broGoogleApiClient, broLocationRequest, (com.google.android.gms.location.LocationListener) this);
                 Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
                         Toast.LENGTH_SHORT).show();
