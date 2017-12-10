@@ -87,6 +87,26 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
+        eventListView = findViewById(R.id.eventList);
+        //Get the list from EventUpdater
+        //final ArrayList<Event> eventsListing = new ArrayList<>();
+        //final EventAdapter myAdapter2 = new EventAdapter(this, eventsListing);
+
+        //init databaseManager and updaters
+        //LET THIS INIT FIRST
+        databaseManager = DatabaseManager.getInstance(this);
+        databaseManager.initialize(MainActivity.this, eventListView);
+
+        //initialize long + lat textviews
+        /*
+        myLongtitude = findViewById(R.id.myLongtitude);
+        myLatitude = findViewById(R.id.myLatitude);
+        myLatitude.setText("Latitude: " + myLat);
+        myLongtitude.setText("Longtitude: " + myLong);
+*/
+=======
+>>>>>>> e46d63630e96132e1acc0fa43fa076c9f89481bd
         buildGoogleAPIClient();
 
         if (ContextCompat.checkSelfPermission(this,
@@ -117,25 +137,21 @@ public class MainActivity extends AppCompatActivity
 
 
 
-        final ListView events = findViewById(R.id.eventList);
-        final ArrayList<Event> eventsListing = new ArrayList<>();
-        final EventAdapter myAdapter2 = new EventAdapter(this, eventsListing);
-
-        Event d = new Event("123", "Kicking a ball", "Football", "abc", "John", 5, 2, 2017, 06022017, 333, 444, 555);
-        Event e = new Event("1234", "Kicking a bottle", "Beer", "ab", "Jo", 6, 2, 2017, 06022017, 333, 444, 555);
-        Event f = new Event("1235", "Kicking ", "Walk", "abcd", "Johnathan", 5, 3, 2017, 06022017, 333, 444, 555);
-        eventsListing.add(0, d);
-        eventsListing.add(1, e);
-        eventsListing.add(2, f);
-
-        events.setAdapter(myAdapter2);
+//        final ListView events = findViewById(R.id.eventList);
+//        final ArrayList<Event> eventsListing = new ArrayList<>();
+//        final EventAdapter myAdapter2 = new EventAdapter(this, eventsListing);
+//
+//        Event d = new Event("123", "Kicking a ball", "Football", "abc", "John", 5, 2, 2017, 06022017, 333, 444, 555);
+//        Event e = new Event("1234", "Kicking a bottle", "Beer", "ab", "Jo", 6, 2, 2017, 06022017, 333, 444, 555);
+//        Event f = new Event("1235", "Kicking ", "Walk", "abcd", "Johnathan", 5, 3, 2017, 06022017, 333, 444, 555);
+//        eventsListing.add(0, d);
+//        eventsListing.add(1, e);
+//        eventsListing.add(2, f);
+//
+//        events.setAdapter(myAdapter2);
 
 
         initializeSeekbar(); //initializes seekbar with units and seekbar.onchangelistener
-
-        //init databaseManager
-        databaseManager = DatabaseManager.getInstance(this);
-        databaseManager.initialize(this, eventListView);
 
         android.support.v7.widget.Toolbar brobar = (Toolbar)findViewById(R.id.toptoolbar);
         setSupportActionBar(brobar);
@@ -289,7 +305,4 @@ public synchronized void buildGoogleAPIClient(){
         //show on list Event[i]
     }
     }
-
-
-
         }

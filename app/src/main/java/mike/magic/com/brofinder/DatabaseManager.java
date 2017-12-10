@@ -23,19 +23,25 @@ import java.util.Calendar;
  * Created by stoff on 01-12-2017.
  */
 
-public class DatabaseManager implements ChildEventListener {
+public class DatabaseManager {
 
     private static DatabaseManager instance;
     private DatabaseReference databaseUsers;
     private DatabaseReference databaseEvents;
     private DatabaseReference databaseComments;
+    private FirebaseDatabase firebaseDatabase;
     private String application_id;
     private Context context;
+
+    private UserEventListener userEventListener;
+    private EventEventListener eventEventListener;
+    private CommentEventListener commentEventListener;
 
     private EventUpdater eventUpdater;
 
     private DatabaseManager(Context context) {
         this.context = context;
+        firebaseDatabase = FirebaseDatabase.getInstance();
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.context);
         application_id = sharedPreferences.getString(context.getString(R.string.APPLICATION_ID), null);
@@ -50,106 +56,24 @@ public class DatabaseManager implements ChildEventListener {
         else {
             //already has app ID
         }
+    }
+
+    //init this in main
+    public void initialize(Activity activity, ListView eventListView) {
+        //init updaters
+        eventUpdater = new EventUpdater(activity, eventListView);
+
+        userEventListener = new UserEventListener();
+        eventEventListener = new EventEventListener(eventUpdater);
+        commentEventListener = new CommentEventListener();
+
         databaseUsers = firebaseDatabase.getReference("Users");
         databaseEvents = firebaseDatabase.getReference("Events");
         databaseComments = firebaseDatabase.getReference("Comments");
 
-        databaseUsers.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                User user = dataSnapshot.getValue(User.class);
-                Log.d("TESTING", user.getId() + "");
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        databaseEvents.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                Event event = dataSnapshot.getValue(Event.class);
-                if(eventUpdater != null) {
-                    eventUpdater.addEvent(event);
-                } else {
-                    //eventUpdater is not set yet
-                }
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                Event event = dataSnapshot.getValue(Event.class);
-
-                if(eventUpdater != null) {
-                    eventUpdater.updateEvent(event);
-                } else {
-                    //eventupdater is not set yet
-                }
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-                Event event = dataSnapshot.getValue(Event.class);
-
-                if(eventUpdater != null) {
-                    eventUpdater.removeEvent(event);
-                } else {
-                    //eventupdater is not set yet
-                }
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        databaseComments.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        databaseUsers.addChildEventListener(userEventListener);
+        databaseEvents.addChildEventListener(eventEventListener);
+        databaseComments.addChildEventListener(commentEventListener);
     }
 
     //one of those singleton boi
@@ -169,11 +93,6 @@ public class DatabaseManager implements ChildEventListener {
         databaseUsers.child(userID).removeValue();
     }
 
-    //init this in main
-    public void initialize(Activity activity, ListView eventListView) {
-        eventUpdater = new EventUpdater(activity, eventListView);
-    }
-
     public void addEvent(String title, String desc, String creator,
                          Calendar calendar, Place location) {
 
@@ -191,9 +110,9 @@ public class DatabaseManager implements ChildEventListener {
     }
 
     public void destroy() {
-        databaseComments.removeEventListener(this);
-        databaseEvents.removeEventListener(this);
-        databaseUsers.removeEventListener(this);
+        databaseComments.removeEventListener(commentEventListener);
+        databaseEvents.removeEventListener(eventEventListener);
+        databaseUsers.removeEventListener(userEventListener);
     }
 
     public void deleteEvent(Event event) {
@@ -209,30 +128,4 @@ public class DatabaseManager implements ChildEventListener {
         return databaseComments.push().getKey();
     }
 
-    //region UselessListenersButHasToBeThere
-    @Override
-    public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-    }
-
-    @Override
-    public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-    }
-
-    @Override
-    public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-    }
-
-    @Override
-    public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
-
-    }
-    //endregionBut
 }
