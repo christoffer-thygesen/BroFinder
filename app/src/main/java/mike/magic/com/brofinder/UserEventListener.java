@@ -34,7 +34,13 @@ public class UserEventListener implements ChildEventListener {
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
+        User user = dataSnapshot.getValue(User.class);
 
+        if(userUpdater != null) {
+            userUpdater.removeUser(user);
+        } else {
+            //userUpdater not set
+        }
     }
 
     @Override

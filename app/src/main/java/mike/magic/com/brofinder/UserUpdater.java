@@ -27,4 +27,17 @@ public class UserUpdater {
             //user is not set
         }
     }
+
+    public void removeUser(User user) {
+        if(user != null) {
+            for(User item : userArray) {
+                if(item.getId() != null) {
+                    if(item.getId().equals(user.getId())) {
+                        userArray.remove(user);
+                        DatabaseManager.getInstance(activity).deleteUser(user);
+                    }
+                }
+            }
+        }
+    }
 }

@@ -92,8 +92,8 @@ public class DatabaseManager {
         databaseUsers.child(userID).setValue(user);
     }
 
-    public void deleteUser(String userID) {
-        databaseUsers.child(userID).removeValue();
+    public void deleteUser(User user) {
+        databaseUsers.child(user.getId()).removeValue();
     }
 
     public void addEvent(String title, String desc, String creator,
