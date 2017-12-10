@@ -1,6 +1,7 @@
 package mike.magic.com.brofinder;
 
 import android.app.Activity;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -11,15 +12,19 @@ import java.util.ArrayList;
 public class UserUpdater {
 
     private Activity activity;
-    private User userInfo;
+    private ArrayList<User> userArray;
 
     public UserUpdater(Activity activity) {
         this.activity = activity;
-
+        userArray = new ArrayList<>();
     }
 
     public void addUser(User user) {
         if(user != null) {
+            userArray.add(user);
+            Log.d("USERTEST", userArray.size() + "");
+        } else {
+            //user is not set
         }
     }
 }

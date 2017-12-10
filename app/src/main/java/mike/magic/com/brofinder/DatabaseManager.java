@@ -38,6 +38,7 @@ public class DatabaseManager {
     private CommentEventListener commentEventListener;
 
     private EventUpdater eventUpdater;
+    private UserUpdater userUpdater;
 
     private DatabaseManager(Context context) {
         this.context = context;
@@ -62,8 +63,10 @@ public class DatabaseManager {
     public void initialize(Activity activity, ListView eventListView) {
         //init updaters
         eventUpdater = new EventUpdater(activity, eventListView);
+        userUpdater = new UserUpdater(activity);
 
-        userEventListener = new UserEventListener();
+
+        userEventListener = new UserEventListener(userUpdater);
         eventEventListener = new EventEventListener(eventUpdater);
         commentEventListener = new CommentEventListener();
 

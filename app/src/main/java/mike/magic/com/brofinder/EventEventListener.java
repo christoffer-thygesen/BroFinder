@@ -21,14 +21,12 @@ public class EventEventListener implements ChildEventListener {
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Event event = dataSnapshot.getValue(Event.class);
-        Log.d("EVENT", event.toString());
 
         if(eventUpdater != null) {
             eventUpdater.addEvent(event);
         } else {
             //eventUpdater is not set and fails
         }
-        Log.d("TESTING", event.getTitle());
     }
 
     @Override
@@ -44,7 +42,13 @@ public class EventEventListener implements ChildEventListener {
 
     @Override
     public void onChildRemoved(DataSnapshot dataSnapshot) {
+        Event event = dataSnapshot.getValue(Event.class);
 
+        if(eventUpdater != null) {
+            eventUpdater.removeEvent(event);
+        } else {
+            //eventUpdater not set
+        }
     }
 
     @Override

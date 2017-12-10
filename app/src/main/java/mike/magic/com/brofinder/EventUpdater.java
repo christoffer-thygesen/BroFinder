@@ -27,7 +27,7 @@ public class EventUpdater {
     public void addEvent(Event event) {
         if(event != null) {
             eventArray.add(event);
-            //need a custom list adapter and notify changes
+            eventAdapter.notifyDataSetChanged();
         }
     }
 
@@ -64,6 +64,7 @@ public class EventUpdater {
                         //questionable method
                         eventArray.remove(event);
                         DatabaseManager.getInstance(activity).deleteEvent(event);
+                        eventAdapter.notifyDataSetChanged();
                     }
                 }
             }
