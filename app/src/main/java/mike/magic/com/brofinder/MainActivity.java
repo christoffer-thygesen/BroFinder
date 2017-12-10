@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity
     private TextView searchRadiusText;
     private GoogleApiClient broGoogleApiClient;
     private LocationManager locationManager; //NEEDED?
-
     //temp longtitude and latitude text fields
 
     private TextView myLongtitude;
@@ -88,6 +87,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
 
+
         eventListView = findViewById(R.id.eventList);
         //Get the list from EventUpdater
         //final ArrayList<Event> eventsListing = new ArrayList<>();
@@ -99,12 +99,9 @@ public class MainActivity extends AppCompatActivity
         databaseManager.initialize(MainActivity.this, eventListView);
 
         //initialize long + lat textviews
-        /*
-        myLongtitude = findViewById(R.id.myLongtitude);
-        myLatitude = findViewById(R.id.myLatitude);
-        myLatitude.setText("Latitude: " + myLat);
-        myLongtitude.setText("Longtitude: " + myLong);
-*/
+
+
+
         buildGoogleAPIClient();
 
         if (ContextCompat.checkSelfPermission(this,
@@ -133,22 +130,6 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-
-
-//        final ListView events = findViewById(R.id.eventList);
-//        final ArrayList<Event> eventsListing = new ArrayList<>();
-//        final EventAdapter myAdapter2 = new EventAdapter(this, eventsListing);
-//
-//        Event d = new Event("123", "Kicking a ball", "Football", "abc", "John", 5, 2, 2017, 06022017, 333, 444, 555);
-//        Event e = new Event("1234", "Kicking a bottle", "Beer", "ab", "Jo", 6, 2, 2017, 06022017, 333, 444, 555);
-//        Event f = new Event("1235", "Kicking ", "Walk", "abcd", "Johnathan", 5, 3, 2017, 06022017, 333, 444, 555);
-//        eventsListing.add(0, d);
-//        eventsListing.add(1, e);
-//        eventsListing.add(2, f);
-//
-//        events.setAdapter(myAdapter2);
-
-
         initializeSeekbar(); //initializes seekbar with units and seekbar.onchangelistener
 
         android.support.v7.widget.Toolbar brobar = (Toolbar)findViewById(R.id.toptoolbar);
@@ -162,8 +143,7 @@ public class MainActivity extends AppCompatActivity
         searchRadiusText.setText("Distance " + searchRadius.getProgress() + " Km");
         searchRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 10; //default value 10 km
-           // Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
-            //Location eventLocation =?
+
             @Override
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 progress = progressValue;
@@ -210,8 +190,14 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onConnected(Bundle connectionHint) {
             //check if permission is set
+
+            LocationRequest broLocationRequest = new LocationRequest();
+            broLocationRequest.setInterval(100);
+            broLocationRequest.setFastestInterval(101);
+            broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
             if(ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+                    android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+            //    LocationServices.FusedLocationApi.requestLocationUpdates(broGoogleApiClient, broLocationRequest, (com.google.android.gms.location.LocationListener) this);
                 Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
                         Toast.LENGTH_SHORT).show();
 
