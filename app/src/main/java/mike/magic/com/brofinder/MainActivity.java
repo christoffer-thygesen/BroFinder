@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-<<<<<<< HEAD
+
         eventListView = findViewById(R.id.eventList);
         //Get the list from EventUpdater
         //final ArrayList<Event> eventsListing = new ArrayList<>();
@@ -105,8 +105,6 @@ public class MainActivity extends AppCompatActivity
         myLatitude.setText("Latitude: " + myLat);
         myLongtitude.setText("Longtitude: " + myLong);
 */
-=======
->>>>>>> e46d63630e96132e1acc0fa43fa076c9f89481bd
         buildGoogleAPIClient();
 
         if (ContextCompat.checkSelfPermission(this,
@@ -229,7 +227,6 @@ public class MainActivity extends AppCompatActivity
                     myLong = broLastLocation.getLongitude();
                     myLatitude.setText("Latitude: " + myLat);
                     myLongtitude.setText("Longtitude: " + myLong);
-
 
                 }
 
