@@ -105,6 +105,7 @@ ListView participatingEvents = (ListView)findViewById(R.id.myParticipatingEvents
         /*for(int i = 0; i<myEventsList.getCount();i++){
             if(myEventsList.isChecked){
                DatabaseManager.getInstance(.deleteEvent();)
+               EventUpdater.removeEvent(event[i]);
             }
         }*/
     }
