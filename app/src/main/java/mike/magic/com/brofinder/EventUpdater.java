@@ -1,9 +1,17 @@
 package mike.magic.com.brofinder;
 
 import android.app.Activity;
+import android.app.Application;
+import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
+
+import static android.support.v4.content.ContextCompat.startActivity;
 
 /**
  * Created by Christoffer on 05-12-2017.
@@ -16,12 +24,24 @@ public class EventUpdater {
     private EventAdapter eventAdapter;
     private ArrayList<Event> eventArray;
 
-    public EventUpdater(Activity activity, ListView eventListView) {
+    public EventUpdater(Activity activity, final ListView eventListView) {
         this.activity = activity;
         this.eventListView = eventListView;
         eventArray = new ArrayList<>();
         eventAdapter = new EventAdapter(activity, eventArray);
         eventListView.setAdapter(eventAdapter);
+
+        eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+              //  Log.d("test", "Test");
+                Intent myIntent = new Intent(eventListView.getContext(), DetailedActivity.class);
+                String nameOfString = String.valueOf(adapterView.getItemAtPosition(position));
+                myIntent.putExtra("eventName", position); // not position, something else
+                eventListView.getContext().startActivity(myIntent);
+
+            }
+        });
     }
 
     public void addEvent(Event event) {

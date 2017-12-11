@@ -34,6 +34,7 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -89,6 +90,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
+        //Request location from GPS with priority High Accuracy. Initial location
+        LocationRequest broLocationRequest = new LocationRequest();
+        broLocationRequest.setInterval(100);
+        broLocationRequest.setFastestInterval(101);
+        broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        //Activate locationListener to listen for onLocationChanged
         broListener = new LocationListener(){
             @Override
             public void onLocationChanged(Location location) {
@@ -101,17 +109,17 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
-            //no method for status changed
+                //no method for status changed
             }
 
             @Override
             public void onProviderEnabled(String s) {
-            //no method for provider enabled
+                //no method for provider enabled
             }
 
             @Override
             public void onProviderDisabled(String s) {
-
+                //if GPS is turned off, go to turn on GPS intent
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(i);
             }
@@ -132,40 +140,28 @@ public class MainActivity extends AppCompatActivity
 
         buildGoogleAPIClient();
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-               android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                                android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.INTERNET}
-                        ,10);
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.INTERNET},10);
             }
             return;
         }
 
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
+            //Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
             locationManager.requestLocationUpdates("gps", 5000, 0, broListener);
-           // myLong = String.valueOf(broLocation.getLongitude());
+            // myLong = String.valueOf(broLocation.getLongitude());
             myLatitude = findViewById(R.id.myLatitude);
             myLongtitude = findViewById(R.id.myLongtitude);
             myLatitude.setText("Latitude: " + myLat);
             myLongtitude.setText("Longtitude: " + myLong);
 
-            Toast.makeText( MainActivity.this, "GPS is on!",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText( MainActivity.this, "GPS is on!", Toast.LENGTH_SHORT).show();
         }
 
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
-                    Toast.LENGTH_SHORT).show();
-        }
-
-
-        initializeSeekbar(); //initializes seekbar with units and seekbar.onchangelistener
+        //initializes seekbar with units and seekbar.onchangelistener
+        initializeSeekbar();
 
         android.support.v7.widget.Toolbar brobar = (Toolbar)findViewById(R.id.toptoolbar);
         setSupportActionBar(brobar);
@@ -184,27 +180,40 @@ public class MainActivity extends AppCompatActivity
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 progress = progressValue;
                 searchRadiusText.setText("Distance " + progress + " km");
-            }
+        }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
 
-            }
+        }
 
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                searchRadiusText.setText("Distance " + progress + " km");
-                //EventUpdater.EventUpdater(this,eventListView);
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            searchRadiusText.setText("Distance " + progress + " km");
+            //EventUpdater.EventUpdater(this,eventListView);
 
+                //Extra function to ensure check of Location. This way we can compare userLocation with EventLocation
                 if (ContextCompat.checkSelfPermission(MainActivity.this,
                         android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-
+                    locationManager.requestLocationUpdates("gps", 5000, 0, broListener);
                     Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
+                    LocationRequest broLocationRequest = new LocationRequest();
+                    broLocationRequest.setInterval(100);
+                    broLocationRequest.setFastestInterval(101);
+                    broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
+                    ArrayList<Event> eventCopyList = databaseManager.getEventUpdater().getEventArray();
 
-                    //broLocation.distanceTo();
-                //if(broLocation.distanceTo()<= progress){
-                //}
+                    for(Event item: eventCopyList){
+                        Location eventLocation;
+                        eventLocation = new Location("eventLocation");
+                        eventLocation.setLatitude(item.getLocation_Lat());
+                        eventLocation.setLongitude(item.getLocation_Lng());
+                    }
+
+                    if(broLocation.distanceTo(eventLocation) <= progress){
+
+                    }
 
                 }
             }
@@ -226,6 +235,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
+        //onStop disconnect googleAPIclient
         if(broGoogleApiClient.isConnected()) {
             broGoogleApiClient.disconnect();
         }
