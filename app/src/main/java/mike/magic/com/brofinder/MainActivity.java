@@ -211,9 +211,10 @@ public class MainActivity extends AppCompatActivity
                         eventLocation.setLongitude(item.getLocation_Lng());
                     }
 
-                    if(broLocation.distanceTo(eventLocation) <= progress){
-
-                    }
+                    //eventLocation is not defined. What?!
+//                    if(broLocation.distanceTo(eventLocation) <= progress){
+//
+//                    }
 
                 }
             }
