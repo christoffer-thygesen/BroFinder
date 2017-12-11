@@ -14,6 +14,11 @@ import java.util.Map;
 
      public Comment() {}
 
+     public Comment(String usernameID, String comment) {
+         this.usernameID = usernameID;
+         this.comment = comment;
+     }
+
      public String getUsernameID() {
          return usernameID;
      }

@@ -25,12 +25,6 @@ public class CommentEventListener implements ChildEventListener {
 
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-        //CommentList commentList = dataSnapshot.getValue(CommentList.class);
-        Comment comment = dataSnapshot.getValue(Comment.class);
-        Log.d("COMMENTTEST", comment.toString());
-        Log.d("DATASNAPSHOT", dataSnapshot.toString());
-        Object obj = dataSnapshot.getValue();
-        Log.d("COMMENTTEST", obj.toString());
     }
 
     @Override

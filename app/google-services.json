@@ -83,6 +83,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "178519433008-ai36phrbupdnq5ea9re6svtmmqi909pe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "mike.magic.com.brofinder",
+            "certificate_hash": "53ee20113f3d8eefe8442fb99de4a1a6ba8fae8a"
+          }
+        },
+        {
           "client_id": "178519433008-h40bdji0chf0mdtki6a5rfptdcc0tekf.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

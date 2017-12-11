@@ -2,6 +2,7 @@ package mike.magic.com.brofinder;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -13,7 +14,6 @@ public class Event implements Serializable {
     private String id;
     private String title;
     private String desc;
-    private String commentsID;
     private String creator;
     //date, because everything else is hard
     private int day;
@@ -25,13 +25,14 @@ public class Event implements Serializable {
     private double location_Lat;
     private double location_Lng;
 
+    private List<Comment> commentList;
+
     public Event() {}
 
-    public Event(String id, String title, String desc, String commentsID, String creator, int day, int month, int year, int hour, int minute, double location_Lat, double location_Lng) {
+    public Event(String id, String title, String desc, String creator, int day, int month, int year, int hour, int minute, double location_Lat, double location_Lng, List<Comment> commentList) {
         this.id = id;
         this.title = title;
         this.desc = desc;
-        this.commentsID = commentsID;
         this.creator = creator;
         this.day = day;
         this.month = month;
@@ -40,6 +41,7 @@ public class Event implements Serializable {
         this.minute = minute;
         this.location_Lat = location_Lat;
         this.location_Lng = location_Lng;
+        this.commentList = commentList;
     }
 
     public String getId() {
@@ -64,14 +66,6 @@ public class Event implements Serializable {
 
     public void setTitle(String title) {
         this.title = title;
-    }
-
-    public String getCommentsID() {
-        return commentsID;
-    }
-
-    public void setCommentsID(String commentsID) {
-        this.commentsID = commentsID;
     }
 
     public String getCreator() {
@@ -138,13 +132,20 @@ public class Event implements Serializable {
         this.location_Lng = location_Lng;
     }
 
+    public List<Comment> getCommentList() {
+        return commentList;
+    }
+
+    public void setCommentList(List<Comment> commentList) {
+        this.commentList = commentList;
+    }
+
     @Override
     public String toString() {
         return "Event{" +
                 "id='" + id + '\'' +
                 ", title='" + title + '\'' +
                 ", desc='" + desc + '\'' +
-                ", commentsID='" + commentsID + '\'' +
                 ", creator='" + creator + '\'' +
                 ", day=" + day +
                 ", month=" + month +
@@ -153,6 +154,7 @@ public class Event implements Serializable {
                 ", minute=" + minute +
                 ", location_Lat=" + location_Lat +
                 ", location_Lng=" + location_Lng +
+                ", commentList=" + commentList +
                 '}';
     }
 
@@ -161,7 +163,6 @@ public class Event implements Serializable {
         result.put("id", id);
         result.put("desc", desc);
         result.put("title", title);
-        result.put("commentsID", commentsID);
         result.put("creator", creator);
         result.put("day", day);
         result.put("month", month);

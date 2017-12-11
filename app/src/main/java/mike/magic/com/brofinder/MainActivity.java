@@ -176,6 +176,7 @@ public class MainActivity extends AppCompatActivity
         //setting Search Radius Seekbar
         searchRadius.setProgress(10); //default value 10 km
         searchRadiusText.setText("Distance " + searchRadius.getProgress() + " Km");
+
         searchRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 10; //default value 10 km
 
@@ -205,56 +206,59 @@ public class MainActivity extends AppCompatActivity
                 //if(broLocation.distanceTo()<= progress){
                 //}
 
+                }
             }
-            }});
+        });
     }
 
-        @Override
-        protected void onStart(){
-        super.onStart();
-        broGoogleApiClient.connect();
-        }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseManager.destroy();
+    }
 
-        @Override
-        protected void onStop() {
+    @Override
+    protected void onStart(){
+    super.onStart();
+    broGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
         super.onStop();
         if(broGoogleApiClient.isConnected()) {
             broGoogleApiClient.disconnect();
         }
+
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        //check if permission is set
+
+        LocationRequest broLocationRequest = new LocationRequest();
+        broLocationRequest.setInterval(100);
+        broLocationRequest.setFastestInterval(101);
+        broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            //LocationServices.FusedLocationApi.requestLocationUpdates(broGoogleApiClient, broLocationRequest, (com.google.android.gms.location.LocationListener) this);
+            Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!", Toast.LENGTH_SHORT).show();
         }
 
-        @Override
-        public void onConnected(Bundle connectionHint) {
-            //check if permission is set
+        //if permission is set, set longtitude and latitude
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Location broLastLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
 
-            LocationRequest broLocationRequest = new LocationRequest();
-            broLocationRequest.setInterval(100);
-            broLocationRequest.setFastestInterval(101);
-            broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-            if(ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            //    LocationServices.FusedLocationApi.requestLocationUpdates(broGoogleApiClient, broLocationRequest, (com.google.android.gms.location.LocationListener) this);
-                Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
-                        Toast.LENGTH_SHORT).show();
+            if (broLastLocation != null) {
+                myLat = broLastLocation.getLatitude();
+                myLong = broLastLocation.getLongitude();
+                myLatitude.setText("Latitude: " + myLat);
+                myLongtitude.setText("Longtitude: " + myLong);
 
             }
-            //if permission is set, set longtitude and latitude
-          if (ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                Location broLastLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
-
-
-                if (broLastLocation != null) {
-                    myLat = broLastLocation.getLatitude();
-                    myLong = broLastLocation.getLongitude();
-                    myLatitude.setText("Latitude: " + myLat);
-                    myLongtitude.setText("Longtitude: " + myLong);
-
-                }
-
-
-        }}
+        }
+    }
 
     @Override
     public void onConnectionSuspended(int cause) {
@@ -262,10 +266,10 @@ public class MainActivity extends AppCompatActivity
         broGoogleApiClient.connect();
     }
 
-        @Override
-        public void onConnectionFailed(ConnectionResult result) {
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() =" + result.getErrorCode());
-        }
+    }
 
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.main_menu,menu);
@@ -311,18 +315,20 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-public synchronized void buildGoogleAPIClient(){
+    public synchronized void buildGoogleAPIClient(){
         broGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-            }
+    }
 
     public void getDistanceShow(Location broLocation, Location eventLocation,int progress){
-    //for(int i = 0; i<allevents;i++){}
-    if(broLocation.distanceTo(eventLocation)<=progress){
+        //for(int i = 0; i<allevents;i++){}
+        if(broLocation.distanceTo(eventLocation)<=progress){
         //show on list Event[i]
-    }
-    }
+
         }
+    }
+
+}
