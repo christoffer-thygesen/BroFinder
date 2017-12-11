@@ -22,6 +22,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.support.v7.widget.Toolbar;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -81,7 +82,6 @@ public class MainActivity extends AppCompatActivity
     //https://stackoverflow.com/questions/42744977/onlocationchanged-getting-called-once-android-studio --use for setting onLocationUpdate
 
     //https://www.mytrendin.com/display-location-save-firebase-database/  how to store location in firebase --use for reading/writing to database
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,7 +206,8 @@ public class MainActivity extends AppCompatActivity
                 //}
 
             }
-            }});}
+            }});
+    }
 
         @Override
         protected void onStart(){
