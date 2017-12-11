@@ -128,7 +128,8 @@ public class MyProfileActivity extends AppCompatActivity {
 
 
     public void deleteAccount(View v) {
-        databaseManager.deleteUser(broUser.getUid());
+        User currentUser = databaseManager.getCurrentUser(broUser.getUid());
+        databaseManager.deleteUser(currentUser);
         broUser.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
 
             @Override

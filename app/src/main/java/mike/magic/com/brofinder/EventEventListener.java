@@ -21,6 +21,7 @@ public class EventEventListener implements ChildEventListener {
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Event event = dataSnapshot.getValue(Event.class);
+        Log.d("EVENTTEST", dataSnapshot.toString());
 
         if(eventUpdater != null) {
             eventUpdater.addEvent(event);

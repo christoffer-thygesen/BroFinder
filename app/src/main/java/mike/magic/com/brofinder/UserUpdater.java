@@ -40,4 +40,8 @@ public class UserUpdater {
             }
         }
     }
+
+    public ArrayList<User> getUserArray() {
+        return userArray;
+    }
 }

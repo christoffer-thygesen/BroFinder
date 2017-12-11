@@ -7,60 +7,41 @@ import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Comment implements Serializable {
+ class Comment implements Serializable {
 
-    private String commentID;
-    private String commentText;
-    private int commenterID;
-    private int commentOrderID;
+     private String usernameID;
+     private String comment;
 
+     public Comment() {}
 
-    public Comment() {}
+     public String getUsernameID() {
+         return usernameID;
+     }
 
-    public Comment(String commentID, String commentText, int commenterID, int commentOrderID){
-        this.commentID = commentID;
-        this.commentText = commentText;
-        this.commenterID = commenterID;
-        this.commentOrderID = commentOrderID;
-    }
+     public void setUsernameID(String usernameID) {
+         this.usernameID = usernameID;
+     }
 
+     public String getComment() {
+         return comment;
+     }
 
-    public String getCommentID() {return commentID;}
+     public void setComment(String comment) {
+         this.comment = comment;
+     }
 
-    public String getCommentText() {return commentText;}
+     @Override
+     public String toString() {
+         return "Comment{" +
+                 "usernameID='" + usernameID + '\'' +
+                 ", comment='" + comment + '\'' +
+                 '}';
+     }
 
-    public int getCommenterID() {return commenterID;}
-
-    public void setCommentID(String commentID) {this.commentID = commentID;}
-
-    public void setCommentText(String commentText) {this.commentText = commentText;}
-
-    public void setCommenterID(int commenterID) {this.commenterID = commenterID;}
-
-    public int getCommentOrderID() {
-        return commentOrderID;
-    }
-
-    public void setCommentOrderID(int commentOrderID) {
-        this.commentOrderID = commentOrderID;
-    }
-
-    @Override
-    public String toString() {
-        return "Comment{" +
-                "commentID=" + commentID +
-                ", commentText='" + commentText + '\'' +
-                ", commenterID=" + commenterID +
-                ", commenterID=" + commentOrderID +
-                '}';
-    }
-
-    public Map<String, Object> toMap() {
+     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("commentID", commentID);
-        result.put("commentText", commentText);
-        result.put("commenterID", commenterID);
-        result.put("commenterID", commentOrderID);
+        result.put("usernameID", usernameID);
+        result.put("comment", comment);
         return result;
     }
 }

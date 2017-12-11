@@ -39,6 +39,7 @@ public class DatabaseManager {
 
     private EventUpdater eventUpdater;
     private UserUpdater userUpdater;
+    private CommentUpdater commentUpdater;
 
     private DatabaseManager(Context context) {
         this.context = context;
@@ -64,11 +65,12 @@ public class DatabaseManager {
         //init updaters
         eventUpdater = new EventUpdater(activity, eventListView);
         userUpdater = new UserUpdater(activity);
+        commentUpdater = new CommentUpdater(activity);
 
 
         userEventListener = new UserEventListener(userUpdater);
         eventEventListener = new EventEventListener(eventUpdater);
-        commentEventListener = new CommentEventListener();
+        commentEventListener = new CommentEventListener(commentUpdater);
 
         databaseUsers = firebaseDatabase.getReference("Users");
         databaseEvents = firebaseDatabase.getReference("Events");
@@ -94,6 +96,20 @@ public class DatabaseManager {
 
     public void deleteUser(User user) {
         databaseUsers.child(user.getId()).removeValue();
+    }
+
+    public User getCurrentUser(String user) {
+        User currentUser = new User();
+        if(user != null) {
+            for(User item : userUpdater.getUserArray()) {
+                if(item.getId() != null) {
+                    if(item.getId().equals(user)) {
+                        currentUser = item;
+                    }
+                }
+            }
+        }
+        return currentUser;
     }
 
     public void addEvent(String title, String desc, String creator,
