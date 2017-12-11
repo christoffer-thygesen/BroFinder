@@ -45,7 +45,12 @@
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".EventAdapter" />
         <activity android:name=".Comment" />
-        <activity android:name=".CommentList"></activity>
+        <activity android:name=".CommentList" />
+        <activity
+            android:name=".DetailedActivity"
+            android:label="@string/title_activity_detailed"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".DetailedActivityAdapter"></activity>
     </application>
 
 </manifest>
