@@ -70,4 +70,8 @@ public class EventUpdater {
             }
         }
     }
+
+    public ArrayList<Event> getEventArray() {
+        return eventArray;
+    }
 }

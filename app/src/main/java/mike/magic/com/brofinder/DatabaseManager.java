@@ -134,6 +134,10 @@ public class DatabaseManager {
         databaseUsers.removeEventListener(userEventListener);
     }
 
+    public EventUpdater getEventUpdater() {
+        return eventUpdater;
+    }
+
     public void deleteEvent(Event event) {
         databaseEvents.child(event.getId()).removeValue();
     }

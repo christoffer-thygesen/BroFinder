@@ -200,7 +200,8 @@ public class MainActivity extends AppCompatActivity
 
                     Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
 
-                //broLocation.distanceTo();
+
+                    //broLocation.distanceTo();
                 //if(broLocation.distanceTo()<= progress){
                 //}
 
