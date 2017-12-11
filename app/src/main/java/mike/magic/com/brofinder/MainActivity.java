@@ -33,6 +33,7 @@ import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -89,6 +90,13 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
+        //Request location from GPS with priority High Accuracy. Initial location
+        LocationRequest broLocationRequest = new LocationRequest();
+        broLocationRequest.setInterval(100);
+        broLocationRequest.setFastestInterval(101);
+        broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        //Activate locationListener to listen for onLocationChanged
         broListener = new LocationListener(){
             @Override
             public void onLocationChanged(Location location) {
@@ -111,7 +119,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onProviderDisabled(String s) {
-
+            //if GPS is turned off, go to turn on GPS intent
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(i);
             }
@@ -146,7 +154,7 @@ public class MainActivity extends AppCompatActivity
         if (ContextCompat.checkSelfPermission(this,
                 android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
+            //Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
             locationManager.requestLocationUpdates("gps", 5000, 0, broListener);
            // myLong = String.valueOf(broLocation.getLongitude());
             myLatitude = findViewById(R.id.myLatitude);
@@ -158,14 +166,8 @@ public class MainActivity extends AppCompatActivity
                     Toast.LENGTH_SHORT).show();
         }
 
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
-                    Toast.LENGTH_SHORT).show();
-        }
-
-
-        initializeSeekbar(); //initializes seekbar with units and seekbar.onchangelistener
+        //initializes seekbar with units and seekbar.onchangelistener
+        initializeSeekbar();
 
         android.support.v7.widget.Toolbar brobar = (Toolbar)findViewById(R.id.toptoolbar);
         setSupportActionBar(brobar);
@@ -183,7 +185,7 @@ public class MainActivity extends AppCompatActivity
             public void onProgressChanged(SeekBar seekBar, int progressValue, boolean fromUser) {
                 progress = progressValue;
                 searchRadiusText.setText("Distance " + progress + " km");
-            }
+        }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -195,28 +197,47 @@ public class MainActivity extends AppCompatActivity
                 searchRadiusText.setText("Distance " + progress + " km");
                 //EventUpdater.EventUpdater(this,eventListView);
 
-                if (ContextCompat.checkSelfPermission(MainActivity.this,
-                        android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    //Extra function to ensure check of Location. This way we can compare userLocation with EventLocation
+                    if (ContextCompat.checkSelfPermission(MainActivity.this,
+                            android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                        locationManager.requestLocationUpdates("gps", 5000, 0, broListener);
+                        Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
+                        LocationRequest broLocationRequest = new LocationRequest();
+                        broLocationRequest.setInterval(100);
+                        broLocationRequest.setFastestInterval(101);
+                        broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
 
-                    Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
+                        ArrayList<Event> eventCopyList = databaseManager.getEventUpdater().getEventArray();
+
+                        for(Event item: eventCopyList){
+                            Location eventLocation;
+                            eventLocation = new Location("eventLocation");
+                            eventLocation.setLatitude(item.getLocation_Lat());
+                            eventLocation.setLongitude(item.getLocation_Lng());
 
 
-                    //broLocation.distanceTo();
-                //if(broLocation.distanceTo()<= progress){
-                //}
 
+                            if(broLocation.distanceTo(eventLocation) <= progress){
+
+                            }
+
+
+
+                        }
             }
             }});}
 
         @Override
         protected void onStart(){
         super.onStart();
+        //onStart connect googleAPIclient
         broGoogleApiClient.connect();
         }
 
         @Override
         protected void onStop() {
         super.onStop();
+        //onStop disconnect googleAPIclient
         if(broGoogleApiClient.isConnected()) {
             broGoogleApiClient.disconnect();
         }
@@ -249,10 +270,7 @@ public class MainActivity extends AppCompatActivity
                     myLong = broLastLocation.getLongitude();
                     myLatitude.setText("Latitude: " + myLat);
                     myLongtitude.setText("Longtitude: " + myLong);
-
                 }
-
-
         }}
 
     @Override
