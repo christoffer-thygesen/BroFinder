@@ -122,10 +122,13 @@ public class DatabaseManager {
         int minute = calendar.get(Calendar.MINUTE);
         double lat = location.getLatLng().latitude;
         double lng = location.getLatLng().longitude;
-        Event event = new Event(createEventID(), title, desc, createCommentID(),
+        String eventID = createEventID();
+        String commentID = createCommentID();
+        Event event = new Event(eventID, title, desc, commentID,
                 creator, day, month, year, hour, minute, lat, lng);
 
-        databaseEvents.child(createEventID()).setValue(event);
+        databaseEvents.child(eventID).setValue(event);
+        databaseComments.setValue(commentID);
     }
 
     public void destroy() {
