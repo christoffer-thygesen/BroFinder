@@ -62,7 +62,6 @@ public class EventUpdater {
                         item.setId(event.getId());
                         item.setTitle(event.getTitle());
                         item.setDesc(event.getDesc());
-                        item.setCommentsID(event.getCommentsID());
                         item.setCreator(event.getCreator());
                         item.setDay(event.getDay());
                         item.setMonth(event.getMonth());

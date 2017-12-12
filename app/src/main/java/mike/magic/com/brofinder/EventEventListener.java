@@ -6,6 +6,8 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
+import java.util.ArrayList;
+
 /**
  * Created by Christoffer on 09-12-2017.
  */
@@ -21,12 +23,20 @@ public class EventEventListener implements ChildEventListener {
     @Override
     public void onChildAdded(DataSnapshot dataSnapshot, String s) {
         Event event = dataSnapshot.getValue(Event.class);
-        Log.d("EVENTTEST", dataSnapshot.toString());
+        ArrayList<Comment> list = new ArrayList<>();
+
+        for (DataSnapshot item : dataSnapshot.child("comments").getChildren()) {
+            String username = String.valueOf(item.child("username").getValue());
+            String comment = String.valueOf(item.child("comment").getValue());
+            Comment tempCom = new Comment(username, comment);
+            list.add(tempCom);
+        }
+        event.setCommentList(list);
 
         if(eventUpdater != null) {
             eventUpdater.addEvent(event);
         } else {
-            //eventUpdater is not set and fails
+            //eventUpdater not set
         }
     }
 

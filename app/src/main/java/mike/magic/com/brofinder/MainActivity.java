@@ -109,17 +109,17 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onStatusChanged(String s, int i, Bundle bundle) {
-            //no method for status changed
+                //no method for status changed
             }
 
             @Override
             public void onProviderEnabled(String s) {
-            //no method for provider enabled
+                //no method for provider enabled
             }
 
             @Override
             public void onProviderDisabled(String s) {
-            //if GPS is turned off, go to turn on GPS intent
+                //if GPS is turned off, go to turn on GPS intent
                 Intent i = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivity(i);
             }
@@ -140,30 +140,24 @@ public class MainActivity extends AppCompatActivity
 
         buildGoogleAPIClient();
 
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
-               android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION,
-                                android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.INTERNET}
-                        ,10);
+                requestPermissions(new String[]{android.Manifest.permission.ACCESS_COARSE_LOCATION, android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.INTERNET},10);
             }
             return;
         }
 
-        if (ContextCompat.checkSelfPermission(this,
-                android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
             //Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
             locationManager.requestLocationUpdates("gps", 5000, 0, broListener);
-           // myLong = String.valueOf(broLocation.getLongitude());
+            // myLong = String.valueOf(broLocation.getLongitude());
             myLatitude = findViewById(R.id.myLatitude);
             myLongtitude = findViewById(R.id.myLongtitude);
             myLatitude.setText("Latitude: " + myLat);
             myLongtitude.setText("Longtitude: " + myLong);
 
-            Toast.makeText( MainActivity.this, "GPS is on!",
-                    Toast.LENGTH_SHORT).show();
+            Toast.makeText( MainActivity.this, "GPS is on!", Toast.LENGTH_SHORT).show();
         }
 
         //initializes seekbar with units and seekbar.onchangelistener
@@ -178,6 +172,7 @@ public class MainActivity extends AppCompatActivity
         //setting Search Radius Seekbar
         searchRadius.setProgress(10); //default value 10 km
         searchRadiusText.setText("Distance " + searchRadius.getProgress() + " Km");
+
         searchRadius.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             int progress = 10; //default value 10 km
 
@@ -187,92 +182,94 @@ public class MainActivity extends AppCompatActivity
                 searchRadiusText.setText("Distance " + progress + " km");
         }
 
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                searchRadiusText.setText("Distance " + progress + " km");
-                //EventUpdater.EventUpdater(this,eventListView);
-
-                    //Extra function to ensure check of Location. This way we can compare userLocation with EventLocation
-                    if (ContextCompat.checkSelfPermission(MainActivity.this,
-                            android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                        locationManager.requestLocationUpdates("gps", 5000, 0, broListener);
-                        Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
-                        LocationRequest broLocationRequest = new LocationRequest();
-                        broLocationRequest.setInterval(100);
-                        broLocationRequest.setFastestInterval(101);
-                        broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-                        ArrayList<Event> eventCopyList = databaseManager.getEventUpdater().getEventArray();
-
-                        for(Event item: eventCopyList){
-                            Location eventLocation;
-                            eventLocation = new Location("eventLocation");
-                            eventLocation.setLatitude(item.getLocation_Lat());
-                            eventLocation.setLongitude(item.getLocation_Lng());
-
-
-
-                            if(broLocation.distanceTo(eventLocation) <= progress){
-
-                            }
-
-
-
-                        }
-            }
-            }});
-    }
-
         @Override
-        protected void onStart(){
-        super.onStart();
-        //onStart connect googleAPIclient
-        broGoogleApiClient.connect();
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
         }
 
         @Override
-        protected void onStop() {
+        public void onStopTrackingTouch(SeekBar seekBar) {
+            searchRadiusText.setText("Distance " + progress + " km");
+            //EventUpdater.EventUpdater(this,eventListView);
+
+                //Extra function to ensure check of Location. This way we can compare userLocation with EventLocation
+                if (ContextCompat.checkSelfPermission(MainActivity.this,
+                        android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    locationManager.requestLocationUpdates("gps", 5000, 0, broListener);
+                    Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
+                    LocationRequest broLocationRequest = new LocationRequest();
+                    broLocationRequest.setInterval(100);
+                    broLocationRequest.setFastestInterval(101);
+                    broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+                    ArrayList<Event> eventCopyList = databaseManager.getEventUpdater().getEventArray();
+
+                    for(Event item: eventCopyList){
+                        Location eventLocation;
+                        eventLocation = new Location("eventLocation");
+                        eventLocation.setLatitude(item.getLocation_Lat());
+                        eventLocation.setLongitude(item.getLocation_Lng());
+                    }
+
+                    //eventLocation is not defined. What?!
+//                    if(broLocation.distanceTo(eventLocation) <= progress){
+//
+//                    }
+
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        databaseManager.destroy();
+    }
+
+    @Override
+    protected void onStart(){
+    super.onStart();
+    broGoogleApiClient.connect();
+    }
+
+    @Override
+    protected void onStop() {
         super.onStop();
         //onStop disconnect googleAPIclient
         if(broGoogleApiClient.isConnected()) {
             broGoogleApiClient.disconnect();
         }
+
+    }
+
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        //check if permission is set
+
+        LocationRequest broLocationRequest = new LocationRequest();
+        broLocationRequest.setInterval(100);
+        broLocationRequest.setFastestInterval(101);
+        broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+
+        if(ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
+            //LocationServices.FusedLocationApi.requestLocationUpdates(broGoogleApiClient, broLocationRequest, (com.google.android.gms.location.LocationListener) this);
+            Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!", Toast.LENGTH_SHORT).show();
         }
 
-        @Override
-        public void onConnected(Bundle connectionHint) {
-            //check if permission is set
+        //if permission is set, set longtitude and latitude
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            Location broLastLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
 
-            LocationRequest broLocationRequest = new LocationRequest();
-            broLocationRequest.setInterval(100);
-            broLocationRequest.setFastestInterval(101);
-            broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-            if(ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED){
-            //    LocationServices.FusedLocationApi.requestLocationUpdates(broGoogleApiClient, broLocationRequest, (com.google.android.gms.location.LocationListener) this);
-                Toast.makeText( MainActivity.this, "Turn on GPS or Grant permission!",
-                        Toast.LENGTH_SHORT).show();
+            if (broLastLocation != null) {
+                myLat = broLastLocation.getLatitude();
+                myLong = broLastLocation.getLongitude();
+                myLatitude.setText("Latitude: " + myLat);
+                myLongtitude.setText("Longtitude: " + myLong);
 
             }
-            //if permission is set, set longtitude and latitude
-          if (ContextCompat.checkSelfPermission(this,
-                    android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                Location broLastLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
-
-
-                if (broLastLocation != null) {
-                    myLat = broLastLocation.getLatitude();
-                    myLong = broLastLocation.getLongitude();
-                    myLatitude.setText("Latitude: " + myLat);
-                    myLongtitude.setText("Longtitude: " + myLong);
-                }
-        }}
+        }
+    }
 
     @Override
     public void onConnectionSuspended(int cause) {
@@ -280,10 +277,10 @@ public class MainActivity extends AppCompatActivity
         broGoogleApiClient.connect();
     }
 
-        @Override
-        public void onConnectionFailed(ConnectionResult result) {
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
         Log.i(TAG, "Connection failed: ConnectionResult.getErrorCode() =" + result.getErrorCode());
-        }
+    }
 
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.main_menu,menu);
@@ -329,18 +326,20 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-public synchronized void buildGoogleAPIClient(){
+    public synchronized void buildGoogleAPIClient(){
         broGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .addApi(LocationServices.API)
                 .build();
-            }
+    }
 
     public void getDistanceShow(Location broLocation, Location eventLocation,int progress){
-    //for(int i = 0; i<allevents;i++){}
-    if(broLocation.distanceTo(eventLocation)<=progress){
+        //for(int i = 0; i<allevents;i++){}
+        if(broLocation.distanceTo(eventLocation)<=progress){
         //show on list Event[i]
-    }
-    }
+
         }
+    }
+
+}

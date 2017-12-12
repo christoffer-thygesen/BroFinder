@@ -123,12 +123,11 @@ public class DatabaseManager {
         double lat = location.getLatLng().latitude;
         double lng = location.getLatLng().longitude;
         String eventID = createEventID();
-        String commentID = createCommentID();
-        Event event = new Event(eventID, title, desc, commentID,
-                creator, day, month, year, hour, minute, lat, lng);
+
+        Event event = new Event(eventID, title, desc,
+                creator, day, month, year, hour, minute, lat, lng, null);
 
         databaseEvents.child(eventID).setValue(event);
-        databaseComments.setValue(commentID);
     }
 
     public void destroy() {
@@ -149,9 +148,4 @@ public class DatabaseManager {
     {
         return databaseEvents.push().getKey();
     }
-    public String createCommentID()
-    {
-        return databaseComments.push().getKey();
-    }
-
 }
