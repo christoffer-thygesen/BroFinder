@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -50,7 +51,14 @@ public class DetailedActivity extends AppCompatActivity {
         textForEventCreator.setText(currentEvent.getTitle());
 
 
+        ArrayList<Comment> b = new ArrayList<>();
+        CommentList a = new CommentList("killMePLS", b);
+        String one = "Janus";
+        String two = "Hugh";
+        Comment aa = new Comment(one, two);
+        b.add(aa);
 
+        creatingTehComments(a);
 
 
 
@@ -60,6 +68,9 @@ public class DetailedActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.ButtonForComment);
         //result = (EditText) findViewById(R.id.editTextResult);
         //we remove result, cuz we don't need it
+
+
+
         // add button listener
         button.setOnClickListener(new View.OnClickListener() {
 
@@ -83,15 +94,15 @@ public class DetailedActivity extends AppCompatActivity {
                         .setCancelable(false)
                         .setPositiveButton("OK",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         // get user input and set it to result
                                         // edit text
-                                     //   result.setText(userInput.getText());
+                                        //   result.setText(userInput.getText());
                                     }
                                 })
                         .setNegativeButton("Cancel",
                                 new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog,int id) {
+                                    public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();
                                     }
                                 });
@@ -102,12 +113,27 @@ public class DetailedActivity extends AppCompatActivity {
                 // show it
                 alertDialog.show();
 
+
             }
         });
 
 
 
     }
+
+    public void creatingTehComments(CommentList LotsAcomments){
+        ListAdapter commmentsAdapter = new CustomCommentAdapter(this, LotsAcomments);
+        ListView commentListView = findViewById(R.id.CommentListView);
+        commentListView.setAdapter(commmentsAdapter);
+    }
+    public void creatingTehComments(String strnk, ArrayList<Comment> arrayListWithComments){
+        CommentList LotsAcomments = new CommentList(strnk, arrayListWithComments);
+        ListAdapter commmentsAdapter = new CustomCommentAdapter(this, LotsAcomments);
+        ListView commentListView = findViewById(R.id.CommentListView);
+        commentListView.setAdapter(commmentsAdapter);
+    }
+
+
     }
 
 

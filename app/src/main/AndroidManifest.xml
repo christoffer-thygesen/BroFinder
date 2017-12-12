@@ -50,7 +50,8 @@
             android:name=".DetailedActivity"
             android:label="@string/title_activity_detailed"
             android:theme="@style/AppTheme" />
-        <activity android:name=".DetailedActivityAdapter"></activity>
+        <activity android:name=".DetailedActivityAdapter" />
+        <activity android:name=".CustomCommentAdapter"></activity>
     </application>
 
 </manifest>

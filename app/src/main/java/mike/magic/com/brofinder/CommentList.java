@@ -16,6 +16,11 @@ public class CommentList implements Serializable {
 
     public CommentList() {}
 
+    public CommentList(String id, ArrayList<Comment> commentList){
+        this.id = id;
+        this.commentList = commentList;
+    }
+
     public List<Comment> getCommentList() {
         return commentList;
     }
@@ -25,4 +30,11 @@ public class CommentList implements Serializable {
     }
 
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
