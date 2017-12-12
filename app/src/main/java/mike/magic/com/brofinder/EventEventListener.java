@@ -30,6 +30,7 @@ public class EventEventListener implements ChildEventListener {
             String comment = String.valueOf(item.child("comment").getValue());
             Comment tempCom = new Comment(username, comment);
             list.add(tempCom);
+            Log.i("here", dataSnapshot.getValue().toString());
         }
         event.setCommentList(list);
 

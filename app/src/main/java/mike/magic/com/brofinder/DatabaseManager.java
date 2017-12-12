@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 
 /**
@@ -111,6 +112,25 @@ public class DatabaseManager {
         }
         return currentUser;
     }
+
+    public boolean hasChildComments(Event event){
+        return false;
+    }
+
+  /*  public ArrayList<User> getAllUsers(String user) {
+        ArrayList<User> allOfDemUsers = new ArrayList<>();
+        User currentUser = new User();
+        if(user != null) {
+            for(User item : userUpdater.getUserArray()) {
+                if(item.getId() != null) {
+                    if(item.getId().equals(user)) {
+                        currentUser = item;
+                    }
+                }
+            }
+        }
+        return allOfDemUsers;
+    } */
 
     public void addEvent(String title, String desc, String creator,
                          Calendar calendar, Place location) {

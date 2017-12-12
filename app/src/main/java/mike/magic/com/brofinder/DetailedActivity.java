@@ -16,6 +16,9 @@ import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 
@@ -24,6 +27,7 @@ public class DetailedActivity extends AppCompatActivity {
 
     Event currentEvent;
     final Context context = this;
+    Comment result; //user's comment that we have to save in the database;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +36,9 @@ public class DetailedActivity extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         currentEvent =(Event) bundle.getSerializable("eventID");
+
+        final String currentUserUsername =  (String)bundle.getSerializable("username");
+        Toast.makeText(context, currentUserUsername, Toast.LENGTH_SHORT).show();
 
 
 
@@ -98,6 +105,12 @@ public class DetailedActivity extends AppCompatActivity {
                                         // get user input and set it to result
                                         // edit text
                                         //   result.setText(userInput.getText());
+                                        //String commentTextFromUser = "";
+                                        //commentTextFromUser
+                                        result = new Comment(currentEvent.getCreator(), (userInput.getText()).toString());
+                                        Toast.makeText(context, userInput.getText().toString(), Toast.LENGTH_SHORT).show();
+                                        CheckForAndAddComment(result, currentUserUsername);
+
                                     }
                                 })
                         .setNegativeButton("Cancel",
@@ -131,6 +144,12 @@ public class DetailedActivity extends AppCompatActivity {
         ListAdapter commmentsAdapter = new CustomCommentAdapter(this, LotsAcomments);
         ListView commentListView = findViewById(R.id.CommentListView);
         commentListView.setAdapter(commmentsAdapter);
+    }
+
+    public void CheckForAndAddComment(Comment comment, String currentUserUsername){
+       // currentEvent.
+
+
     }
 
 

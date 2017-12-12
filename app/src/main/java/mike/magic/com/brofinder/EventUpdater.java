@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.google.firebase.auth.FirebaseAuth;
+
 import java.util.ArrayList;
 
 import static android.support.v4.content.ContextCompat.startActivity;
@@ -39,6 +41,8 @@ public class EventUpdater {
                 Intent myIntent = new Intent(eventListView.getContext(), DetailedActivity.class);
                 Event event = (Event) adapterView.getItemAtPosition(position);
                 myIntent.putExtra("eventID", event); //
+                String username =  "" + FirebaseAuth.getInstance().getCurrentUser().getUid() ;
+                myIntent.putExtra("username", username);
                 eventListView.getContext().startActivity(myIntent);
 
             }
