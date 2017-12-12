@@ -37,7 +37,8 @@
         <activity
             android:name=".RegisterUserActivity"
             android:parentActivityName=".LoginActivity" /> <!-- -> Register Activity Child of Login < -->
-        <activity android:name=".MyProfileActivity" />
+        <activity android:name=".MyProfileActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ForgotPasswordActivity"
             android:parentActivityName=".LoginActivity" /> <!-- -> ForgotPassword Activity Child of Login < -->

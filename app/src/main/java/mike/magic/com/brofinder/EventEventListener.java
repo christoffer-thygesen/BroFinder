@@ -65,11 +65,9 @@ public class EventEventListener implements ChildEventListener {
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
-
     }
 }

@@ -77,7 +77,7 @@ public class MyProfileActivity extends AppCompatActivity {
     public void changePasswordButton(View v) {
 
         EditText oldPassword = findViewById(R.id.oldPassword);
-        String oldPasswordTest = oldPassword.getText().toString(); //Is this good practice? prolly not
+        String oldPasswordTest = oldPassword.getText().toString();
 
         EditText newPassword = findViewById(R.id.newPasswordManage);
         String newPasswordTest = newPassword.getText().toString();
@@ -122,7 +122,9 @@ public class MyProfileActivity extends AppCompatActivity {
         else{
             Toast.makeText(MyProfileActivity.this, "One of the edit fields are empty! Please fill out all forms!",
                     Toast.LENGTH_SHORT).show();
+
         }
+        finish();
     }
 
 
@@ -141,15 +143,19 @@ public class MyProfileActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(MyProfileActivity.this, "failed to delete user, try again !",
                             Toast.LENGTH_SHORT).show();
-
                 }
             }
         });
     }
 
-
     public void userDeleted()
     {
+        Intent intent = new Intent(this,LoginActivity.class);
+        startActivity(intent);
+    }
+
+    public void logOut(View v){
+        FirebaseAuth.getInstance().signOut();
         Intent intent = new Intent(this,LoginActivity.class);
         startActivity(intent);
     }

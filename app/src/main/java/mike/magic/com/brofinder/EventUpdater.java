@@ -44,11 +44,6 @@ public class EventUpdater {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                //  Log.d("test", "Test");
-
-
-               // String nameOfString = String.valueOf(adapterView.getItemAtPosition(position));
-
                 Intent myIntent = new Intent(eventListView.getContext(), DetailedActivity.class);
                 Event event = (Event) adapterView.getItemAtPosition(position);
                 myIntent.putExtra("eventID", event); //
@@ -70,7 +65,7 @@ public class EventUpdater {
     public Event getDistance(Event item) {
         Location myLocation = getCurrentLocation();
         if(myLocation == null) {
-            //you're fucked
+            //you have no location
         } else {
 
             Location eventLocation2;
@@ -80,23 +75,10 @@ public class EventUpdater {
 
             double local = myLocation.distanceTo(eventLocation2);
             int local2 = (int) Math.ceil(local / 1000);
-            Log.d("AAAAAAAAAAAAA", local2 + "");
             item.setDistance(local2);
         }
         return item;
 
-
-//        for(Event item: eventArray){
-//            Log.d("AAAAAAAAAAAAAAAAAAAAAA", item.getId());
-//            Location eventLocation2;
-//            eventLocation2 = new Location("eventLocation");
-//            eventLocation2.setLatitude(item.getLocation_Lat());
-//            eventLocation2.setLongitude(item.getLocation_Lng());
-//            double local = broLocation.distanceTo(eventLocation2);
-//            int local2 = (int) Math.round(local);
-//            item.setDistance(local2);
-//            Log.d("AAAAAAAAAAAAAAAAAAAAAA", local2 + "");
-//        }
     }
 
     public void addEvent(Event event) {

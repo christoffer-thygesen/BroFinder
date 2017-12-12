@@ -4,10 +4,6 @@ import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 
-/**
- * Created by Christoffer on 09-12-2017.
- */
-
 public class UserEventListener implements ChildEventListener {
 
     private UserUpdater userUpdater;

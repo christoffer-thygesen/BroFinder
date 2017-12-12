@@ -1,7 +1,9 @@
 package mike.magic.com.brofinder;
 
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -13,14 +15,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MyEventsActivity extends AppCompatActivity {
-    /*
-        final ArrayList<String> myEventList = new ArrayList<String>();
-        final ArrayAdapter myEventAdapter = new ArrayAdapter(this,R.layout.myeventlist , myEventList);
-        ListView listView = (ListView)findViewById(R.id.list);
-        //listView.setAdapter(myEventAdapter);
 
-    */
-
+    final ArrayList<Event> myEventsList = new ArrayList<>();
+    DatabaseManager databaseManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,13 +25,17 @@ public class MyEventsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_events);
 
+        android.support.v7.widget.Toolbar brobar = (Toolbar) findViewById(R.id.toptoolbar);
+        setSupportActionBar(brobar);
+
+        ActionBar broActionBar = getSupportActionBar();
+        broActionBar.setDisplayHomeAsUpEnabled(true);
 
         final ListView myEvents = findViewById(R.id.MyEventList);
         ListView participatingEvents = findViewById(R.id.myParticipatingEvents);
-        final ArrayList<Event> myEventsList = new ArrayList<>();
+
         final MyEventsAdapter myAdapter = new MyEventsAdapter(this, myEventsList);
         final MyEventsAdapter myParticipatingEventsAdapter = new MyEventsAdapter(this, myEventsList);
-
 
         Event a = new Event("123", "Kicking a ball", "Football", "abc", 5, 5, 2, 2017, 06022017, 333.1, 444.2);
         Event b = new Event("123", "ball", "ball", "abc", 5, 5, 2, 2017, 06022017, 333.1, 444.2);
@@ -69,28 +70,8 @@ public class MyEventsActivity extends AppCompatActivity {
                         CheckBox checkitOff = mChild.findViewById(R.id.checkBox);
                         checkitOff.setChecked(false);
                     }
-
                 }}
-
         });}
-
-
-
-        /*
-       for(Event myEvents : myEventList) {
-   if(Event.getId(creatorID).equals(someId) {
-   ListView myEvents = (ListView)findViewById(R.id.myEventList);
-       //found it!
-   }
-}
-
-for(Event myParticipatingEvents : myEventList)(
-if(Event.getId( *id = participating*?){
-ListView participatingEvents = (ListView)findViewById(R.id.myParticipatingEvents);
-        * */
-
-
-
 
 
     public void refreshButton(View v){
@@ -101,11 +82,11 @@ ListView participatingEvents = (ListView)findViewById(R.id.myParticipatingEvents
 
     }
 
-    public void deleteEvents(View v){
-        /*for(int i = 0; i<myEventsList.getCount();i++){
+    public void deleteEvents(View v, boolean isChecked){
+        /* for(int i = 0; i<myEventsList.size();i++){
             if(myEventsList.isChecked){
-               DatabaseManager.getInstance(.deleteEvent();)
-               EventUpdater.removeEvent(event[i]);
+              //delete event
+
             }
         }*/
     }

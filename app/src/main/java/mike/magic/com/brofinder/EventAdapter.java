@@ -38,7 +38,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView clockText = (TextView)rowView.findViewById(R.id.eventTime);
         TextView textLocation = (TextView)rowView.findViewById(R.id.eventLocation);
         TextView eventDistance = (TextView)rowView.findViewById(R.id.eventDistance);
-        //does this even exist?
+   
         //TextView textCreator = (TextView)rowView.findViewById(R.id.Creator);
         TextView participantsNumber = (TextView)rowView.findViewById(R.id.eventsParticipants);
         participantsNumber.setText("3");
@@ -59,7 +59,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         clockText.setText(time);
         textLocation.setText("I am location, until I get a better solution");
         String distance =  null;
-        //textCreator.setText("BOIIII");
+
 
         return rowView;
     }

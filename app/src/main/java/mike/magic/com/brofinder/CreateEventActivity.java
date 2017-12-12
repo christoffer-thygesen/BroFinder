@@ -5,8 +5,10 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -50,6 +52,13 @@ public class CreateEventActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+        android.support.v7.widget.Toolbar brobar = (Toolbar) findViewById(R.id.toptoolbar);
+        setSupportActionBar(brobar);
+
+        ActionBar broActionBar = getSupportActionBar();
+        broActionBar.setDisplayHomeAsUpEnabled(true);
+
 
         databaseManager = DatabaseManager.getInstance(this);
         editTitle = findViewById(R.id.editTitle);
