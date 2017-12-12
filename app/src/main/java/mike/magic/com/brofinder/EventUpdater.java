@@ -43,10 +43,15 @@ public class EventUpdater {
         eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+
                 //  Log.d("test", "Test");
+
+
+               // String nameOfString = String.valueOf(adapterView.getItemAtPosition(position));
+
                 Intent myIntent = new Intent(eventListView.getContext(), DetailedActivity.class);
-                String nameOfString = String.valueOf(adapterView.getItemAtPosition(position));
-                myIntent.putExtra("eventName", position); // not position, something else
+                Event event = (Event) adapterView.getItemAtPosition(position);
+                myIntent.putExtra("eventID", event); //
                 eventListView.getContext().startActivity(myIntent);
 
             }
