@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity
     private GoogleApiClient broGoogleApiClient;
     private LocationManager locationManager;
     private LocationListener broListener;
-    private TextView myLongtitude;
-    private TextView myLatitude;
+    //private TextView myLongtitude;
+    //private TextView myLatitude;
     double myLat;
     double myLong;
     public String broProvider;
@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity
             public void onLocationChanged(Location location) {
                 myLong = location.getLongitude();
                 myLat = location.getLatitude();
-                myLatitude.setText("Latitude: " + myLat);
-                myLongtitude.setText("Longtitude: " + myLong);
+                //myLatitude.setText("Latitude: " + myLat);
+                //myLongtitude.setText("Longtitude: " + myLong);
             }
 
             @Override
@@ -128,10 +128,10 @@ public class MainActivity extends AppCompatActivity
 
             locationManager.requestLocationUpdates("gps", 5000, 0, broListener);
 
-            myLatitude = findViewById(R.id.myLatitude);
-            myLongtitude = findViewById(R.id.myLongtitude);
-            myLatitude.setText("Latitude: " + myLat);
-            myLongtitude.setText("Longtitude: " + myLong);
+            //myLatitude = findViewById(R.id.myLatitude);
+            //myLongtitude = findViewById(R.id.myLongtitude);
+            //myLatitude.setText("Latitude: " + myLat);
+            //myLongtitude.setText("Longtitude: " + myLong);
 
             Toast.makeText( MainActivity.this, "GPS is on!", Toast.LENGTH_SHORT).show();
         }
@@ -246,8 +246,8 @@ public class MainActivity extends AppCompatActivity
             if (broLastLocation != null) {
                 myLat = broLastLocation.getLatitude();
                 myLong = broLastLocation.getLongitude();
-                myLatitude.setText("Latitude: " + myLat);
-                myLongtitude.setText("Longtitude: " + myLong);
+                //myLatitude.setText("Latitude: " + myLat);
+                //myLongtitude.setText("Longtitude: " + myLong);
 
             }
         }
