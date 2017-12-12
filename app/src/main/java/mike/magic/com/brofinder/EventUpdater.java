@@ -38,7 +38,7 @@ public class EventUpdater {
         this.googleApiClient = googleApiClient;
         eventArray = new ArrayList<>();
         eventAdapter = new EventAdapter(activity, eventArray);
-        eventListView.setAdapter(eventAdapter);
+       // eventListView.setAdapter(eventAdapter); commented out because we need events on distance
 
         eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
