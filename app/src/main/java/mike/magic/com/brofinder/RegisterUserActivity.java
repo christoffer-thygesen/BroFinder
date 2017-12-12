@@ -29,7 +29,7 @@ public class RegisterUserActivity extends AppCompatActivity {
 
     // private TextView mStatusTextView;
     // private TextView mDetailTextView;
-    //   private EditText newUserName = findViewById(R.id.newUsername); //EditText ID name for field Username
+    // private EditText newUserName = findViewById(R.id.newUsername); //EditText ID name for field Username
 
 
     @Override

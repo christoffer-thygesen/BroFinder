@@ -35,6 +35,7 @@ public class EventEventListener implements ChildEventListener {
         event.setCommentList(list);
 
         if(eventUpdater != null) {
+            eventUpdater.getDistance(event);
             eventUpdater.addEvent(event);
         } else {
             //eventUpdater not set
@@ -65,11 +66,9 @@ public class EventEventListener implements ChildEventListener {
 
     @Override
     public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
     }
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
-
     }
 }

@@ -1,17 +1,13 @@
 package mike.magic.com.brofinder;
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
-import android.provider.ContactsContract;
 import android.provider.Settings;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,44 +18,22 @@ import android.view.MenuItem;
 import android.view.View;
 
 import android.support.v7.widget.Toolbar;
-import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.Api;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-
 
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.common.api.GoogleApiClient.ConnectionCallbacks;
 import com.google.android.gms.common.api.GoogleApiClient.OnConnectionFailedListener;
-
-import java.io.FileDescriptor;
-import java.io.PrintWriter;
-import java.sql.Connection;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
-import static android.location.Criteria.ACCURACY_COARSE;
-import static android.location.Criteria.ACCURACY_FINE;
 
 public class MainActivity extends AppCompatActivity
         implements ConnectionCallbacks, OnConnectionFailedListener{
@@ -70,27 +44,38 @@ public class MainActivity extends AppCompatActivity
     private SeekBar searchRadius;
     private TextView searchRadiusText;
     private GoogleApiClient broGoogleApiClient;
-    private LocationManager locationManager; //NEEDED?
-    //temp longtitude and latitude text fields
+    private LocationManager locationManager;
     private LocationListener broListener;
-    private TextView myLongtitude;
-    private TextView myLatitude;
+    //private TextView myLongtitude;
+    //private TextView myLatitude;
     double myLat;
     double myLong;
     public String broProvider;
     String TAG = "GoogleMapsAPI";
+    private ArrayList<Event> eventArray;
+    private FirebaseAuth broAuth;
+    private FirebaseUser broUser;
 
-    //https://stackoverflow.com/questions/42744977/onlocationchanged-getting-called-once-android-studio --use for setting onLocationUpdate
-
-    //https://www.mytrendin.com/display-location-save-firebase-database/  how to store location in firebase --use for reading/writing to database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        buildGoogleAPIClient();
         locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
+        //Check if user is authenticated by Firebase - if not, go to Login page
+        broAuth = FirebaseAuth.getInstance();
+        broUser = broAuth.getCurrentUser();
+        if(broUser == null){
+            Intent intent = new Intent(this,LoginActivity.class);
+            Toast.makeText( MainActivity.this, "You are not logged in!", Toast.LENGTH_SHORT).show();
+            startActivity(intent);
+        }
+
+
         //Request location from GPS with priority High Accuracy. Initial location
+        Location broLocation = new Location("location");
         LocationRequest broLocationRequest = new LocationRequest();
         broLocationRequest.setInterval(100);
         broLocationRequest.setFastestInterval(101);
@@ -102,9 +87,8 @@ public class MainActivity extends AppCompatActivity
             public void onLocationChanged(Location location) {
                 myLong = location.getLongitude();
                 myLat = location.getLatitude();
-                myLatitude.setText("Latitude: " + myLat);
-                myLongtitude.setText("Longtitude: " + myLong);
-
+                //myLatitude.setText("Latitude: " + myLat);
+                //myLongtitude.setText("Longtitude: " + myLong);
             }
 
             @Override
@@ -125,20 +109,12 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-
         eventListView = findViewById(R.id.eventList);
-        //Get the list from EventUpdater
-        //final ArrayList<Event> eventsListing = new ArrayList<>();
-        //final EventAdapter myAdapter2 = new EventAdapter(this, eventsListing);
 
         //init databaseManager and updaters
         //LET THIS INIT FIRST
         databaseManager = DatabaseManager.getInstance(this);
-        databaseManager.initialize(MainActivity.this, eventListView);
-
-        //initialize long + lat textviews
-
-        buildGoogleAPIClient();
+        databaseManager.initialize(MainActivity.this, eventListView, broGoogleApiClient);
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -149,13 +125,13 @@ public class MainActivity extends AppCompatActivity
 
         if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
-            //Location broLocation = LocationServices.FusedLocationApi.getLastLocation(broGoogleApiClient);
+
             locationManager.requestLocationUpdates("gps", 5000, 0, broListener);
-            // myLong = String.valueOf(broLocation.getLongitude());
-            myLatitude = findViewById(R.id.myLatitude);
-            myLongtitude = findViewById(R.id.myLongtitude);
-            myLatitude.setText("Latitude: " + myLat);
-            myLongtitude.setText("Longtitude: " + myLong);
+
+            //myLatitude = findViewById(R.id.myLatitude);
+            //myLongtitude = findViewById(R.id.myLongtitude);
+            //myLatitude.setText("Latitude: " + myLat);
+            //myLongtitude.setText("Longtitude: " + myLong);
 
             Toast.makeText( MainActivity.this, "GPS is on!", Toast.LENGTH_SHORT).show();
         }
@@ -167,7 +143,8 @@ public class MainActivity extends AppCompatActivity
         setSupportActionBar(brobar);
 
         ActionBar broActionBar = getSupportActionBar();
-        broActionBar.setDisplayHomeAsUpEnabled(true);
+        broActionBar.setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setHomeButtonEnabled(true);
 
         //setting Search Radius Seekbar
         searchRadius.setProgress(10); //default value 10 km
@@ -184,11 +161,11 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onStartTrackingTouch(SeekBar seekBar) {
-
         }
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
+
             searchRadiusText.setText("Distance " + progress + " km");
             //EventUpdater.EventUpdater(this,eventListView);
 
@@ -201,22 +178,27 @@ public class MainActivity extends AppCompatActivity
                     broLocationRequest.setInterval(100);
                     broLocationRequest.setFastestInterval(101);
                     broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-                    ArrayList<Event> eventCopyList = databaseManager.getEventUpdater().getEventArray();
-
-                    for(Event item: eventCopyList){
-                        Location eventLocation;
-                        eventLocation = new Location("eventLocation");
-                        eventLocation.setLatitude(item.getLocation_Lat());
-                        eventLocation.setLongitude(item.getLocation_Lng());
-                    }
-
-                    //eventLocation is not defined. What?!
-//                    if(broLocation.distanceTo(eventLocation) <= progress){
-//
-//                    }
-
                 }
+
+            ArrayList<Event> sortEventsByDistance = databaseManager.getEventUpdater().getEventArray();
+            ArrayList<Event> eventDistanceArray = new ArrayList<>();
+
+            if(eventDistanceArray.size() >= 0) {
+                eventDistanceArray.clear();
+                eventDistanceArray.removeAll(eventDistanceArray);
+            }
+
+            for(Event item : sortEventsByDistance){
+
+                int distance = item.getDistance();
+                if(distance<=progress){
+                        eventDistanceArray.add(item);
+                }
+            }
+
+            EventAdapter eventDistanceAdapter = new EventAdapter(MainActivity.this, eventDistanceArray);
+            eventListView.setAdapter(eventDistanceAdapter);
+
             }
         });
     }
@@ -264,8 +246,8 @@ public class MainActivity extends AppCompatActivity
             if (broLastLocation != null) {
                 myLat = broLastLocation.getLatitude();
                 myLong = broLastLocation.getLongitude();
-                myLatitude.setText("Latitude: " + myLat);
-                myLongtitude.setText("Longtitude: " + myLong);
+                //myLatitude.setText("Latitude: " + myLat);
+                //myLongtitude.setText("Longtitude: " + myLong);
 
             }
         }
@@ -301,19 +283,8 @@ public class MainActivity extends AppCompatActivity
             default:
                 return super.onOptionsItemSelected(item);
         }
-
     }
 
-
-    public void tologin(View v){
-        goToLoginPage();
-    }
-
-
-    public void goToLoginPage() {
-        Intent intent = new Intent(this,LoginActivity.class);
-        startActivity(intent);
-    }
 
     public void toCreateEvent(View view) {
         Intent intent = new Intent(this,CreateEventActivity.class);
@@ -334,12 +305,7 @@ public class MainActivity extends AppCompatActivity
                 .build();
     }
 
-    public void getDistanceShow(Location broLocation, Location eventLocation,int progress){
-        //for(int i = 0; i<allevents;i++){}
-        if(broLocation.distanceTo(eventLocation)<=progress){
-        //show on list Event[i]
 
-        }
-    }
+
 
 }

@@ -31,11 +31,6 @@ public class DetailedActivityAdapter extends ArrayAdapter<Event> {
         final TextView textTitle = (TextView)myEventCustomView.findViewById(R.id.eventDescription);
         textTitle.setText(currentEvent.getDesc());//Event.getTitle();
 
-
-
         return myEventCustomView;
-
     }
-
-
 }

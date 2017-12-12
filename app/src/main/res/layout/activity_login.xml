@@ -23,9 +23,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
         android:adjustViewBounds="true"
-        android:src="@drawable/firstlogo"
-        />
-
+        android:src="@drawable/brofinderlogo"/>
 
     <EditText
         android:layout_width="match_parent"

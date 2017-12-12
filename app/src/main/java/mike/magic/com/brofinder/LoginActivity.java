@@ -24,6 +24,7 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "EmailPassword";
     private FirebaseAuth broAuth;
     private Button loginButton;
+    private DatabaseManager databaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,26 +38,15 @@ public class LoginActivity extends AppCompatActivity {
 
         ActionBar broActionBar = getSupportActionBar();
         broActionBar.setDisplayHomeAsUpEnabled(true);
-
-        /*
-        if(broAuth.getCurrentUser() != null){
-            toMainActivity();
-        }
-        else{
-
-        } UNCOMMENT TO CHECK FOR LOGIN ON APPLICATION START */
     }
 
     @Override
     public void onStart(){
         super.onStart();
-
         FirebaseUser currentUser = broAuth.getCurrentUser();
-
     }
 
     public void passwordRecovery(View v){
-
         Intent intent = new Intent(this,ForgotPasswordActivity.class);
         startActivity(intent);
     }
@@ -65,8 +55,6 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(this,RegisterUserActivity.class);
         startActivity(intent);
     }
-
-
 
     public void loginButtonClick(View v){
         EditText userEmail = findViewById(R.id.userEmail); //
@@ -101,6 +89,4 @@ public class LoginActivity extends AppCompatActivity {
         finish();
         startActivity(backtoMain);
     }
-
 }
-//https://firebase.google.com/docs/auth/web/manage-users

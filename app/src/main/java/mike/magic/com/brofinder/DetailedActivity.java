@@ -35,6 +35,10 @@ public class DetailedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed);
 
         Bundle bundle = getIntent().getExtras();
+
+        int tempPosition = bundle.getInt("eventName");
+        //Event event = getItem(tempPosition);
+
         currentEvent =(Event) bundle.getSerializable("eventID");
 
         final String currentUserUsername =  (String)bundle.getSerializable("username");
@@ -75,8 +79,6 @@ public class DetailedActivity extends AppCompatActivity {
         Button button = (Button) findViewById(R.id.ButtonForComment);
         //result = (EditText) findViewById(R.id.editTextResult);
         //we remove result, cuz we don't need it
-
-
 
         // add button listener
         button.setOnClickListener(new View.OnClickListener() {

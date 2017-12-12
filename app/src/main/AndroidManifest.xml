@@ -37,21 +37,24 @@
         <activity
             android:name=".RegisterUserActivity"
             android:parentActivityName=".LoginActivity" /> <!-- -> Register Activity Child of Login < -->
-        <activity android:name=".MyProfileActivity" />
+        <activity android:name=".MyProfileActivity"
+            android:parentActivityName=".MainActivity"/>
         <activity
             android:name=".ForgotPasswordActivity"
             android:parentActivityName=".LoginActivity" /> <!-- -> ForgotPassword Activity Child of Login < -->
 
-        <activity android:name=".CreateEventActivity" />
-        <activity android:name=".EventAdapter" />
-        <activity android:name=".Comment" />
-        <activity android:name=".CommentList" />
+        <activity android:name=".CreateEventActivity"
+            android:parentActivityName=".MainActivity"/>
+
         <activity
             android:name=".DetailedActivity"
             android:label="@string/title_activity_detailed"
             android:theme="@style/AppTheme" />
+
+
         <activity android:name=".DetailedActivityAdapter" />
         <activity android:name=".CustomCommentAdapter"></activity>
+
     </application>
 
 </manifest>

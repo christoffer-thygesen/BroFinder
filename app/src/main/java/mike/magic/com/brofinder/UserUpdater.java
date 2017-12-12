@@ -5,10 +5,6 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-/**
- * Created by stoff on 05-12-2017.
- */
-
 public class UserUpdater {
 
     private Activity activity;
