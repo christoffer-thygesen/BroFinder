@@ -37,8 +37,8 @@ public class EventUpdater {
 
                // String nameOfString = String.valueOf(adapterView.getItemAtPosition(position));
                 Intent myIntent = new Intent(eventListView.getContext(), DetailedActivity.class);
-
-                myIntent.putExtra("eventPosition", eventAdapter.getItem(position).getId()); //
+                Event event = (Event) adapterView.getItemAtPosition(position);
+                myIntent.putExtra("eventID", event); //
                 eventListView.getContext().startActivity(myIntent);
 
             }

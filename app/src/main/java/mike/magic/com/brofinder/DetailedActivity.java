@@ -20,9 +20,7 @@ import java.util.ArrayList;
 
 public class DetailedActivity extends AppCompatActivity {
 
-    public String eventId;
-    private DatabaseManager databaseManager = DatabaseManager.getInstance(this);
-    ArrayList<Event> eventArrayList = databaseManager.getEventUpdater().getEventArray();
+
     Event currentEvent;
     final Context context = this;
 
@@ -32,16 +30,24 @@ public class DetailedActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detailed);
 
         Bundle bundle = getIntent().getExtras();
-        eventId = bundle.getString("eventPosition");
+        currentEvent =(Event) bundle.getSerializable("eventID");
 
-        for (int i = 0; i < eventArrayList.size(); i++){
-          if  (eventArrayList.get(i).getId() == eventId)
-                    currentEvent = eventArrayList.get(i);
-        }
 
-        final TextView textTitle = (TextView) findViewById(R.id.eventDescription);
-        textTitle.setText(currentEvent.getDesc());//Event.getTitle();
 
+        final TextView textDesc = (TextView) findViewById(R.id.eventDescription);
+        textDesc.setText(currentEvent.getDesc());//Event.getTitle();
+
+        final TextView textTitle = (TextView) findViewById(R.id.eventTitle);
+        textTitle.setText(currentEvent.getTitle());
+
+     //   final TextView textPlace = (TextView) findViewById(R.id.EventPlace);
+       // textPlace.setText(currentEvent.get); Not enough mana points to cast this spell
+
+        String timeString = "" + currentEvent.getHour() + currentEvent.getMinute();
+        final TextView textTime = (TextView) findViewById(R.id.eventTime);
+
+        final TextView textForEventCreator = (TextView) findViewById(R.id.eventCreator);
+        textForEventCreator.setText(currentEvent.getTitle());
 
 
 
