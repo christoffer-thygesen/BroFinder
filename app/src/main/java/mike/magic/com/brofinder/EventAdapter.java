@@ -1,33 +1,17 @@
 package mike.magic.com.brofinder;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.TextClock;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
-
-import android.app.Activity;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Layout;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.TextClock;
-import android.widget.TextView;
 
 public class EventAdapter extends ArrayAdapter<Event> {
 
@@ -53,6 +37,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         TextView textDate = (TextView)rowView.findViewById(R.id.eventDate);
         TextView clockText = (TextView)rowView.findViewById(R.id.eventTime);
         TextView textLocation = (TextView)rowView.findViewById(R.id.eventLocation);
+        TextView eventDistance = (TextView)rowView.findViewById(R.id.eventDistance);
         //does this even exist?
         //TextView textCreator = (TextView)rowView.findViewById(R.id.Creator);
         TextView participantsNumber = (TextView)rowView.findViewById(R.id.eventsParticipants);
@@ -73,6 +58,7 @@ public class EventAdapter extends ArrayAdapter<Event> {
         textDate.setText(date);
         clockText.setText(time);
         textLocation.setText("I am location, until I get a better solution");
+        String distance =  null;
         //textCreator.setText("BOIIII");
 
         return rowView;

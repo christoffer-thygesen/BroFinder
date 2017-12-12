@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity
     double myLong;
     public String broProvider;
     String TAG = "GoogleMapsAPI";
+    private ArrayList<Event> eventArray;
 
     //https://stackoverflow.com/questions/42744977/onlocationchanged-getting-called-once-android-studio --use for setting onLocationUpdate
 
@@ -88,6 +89,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        buildGoogleAPIClient();
         locationManager = (LocationManager)getSystemService(LOCATION_SERVICE);
 
         //Request location from GPS with priority High Accuracy. Initial location
@@ -134,11 +136,9 @@ public class MainActivity extends AppCompatActivity
         //init databaseManager and updaters
         //LET THIS INIT FIRST
         databaseManager = DatabaseManager.getInstance(this);
-        databaseManager.initialize(MainActivity.this, eventListView);
+        databaseManager.initialize(MainActivity.this, eventListView, broGoogleApiClient);
 
         //initialize long + lat textviews
-
-        buildGoogleAPIClient();
 
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -189,6 +189,8 @@ public class MainActivity extends AppCompatActivity
 
         @Override
         public void onStopTrackingTouch(SeekBar seekBar) {
+
+
             searchRadiusText.setText("Distance " + progress + " km");
             //EventUpdater.EventUpdater(this,eventListView);
 
@@ -201,22 +203,26 @@ public class MainActivity extends AppCompatActivity
                     broLocationRequest.setInterval(100);
                     broLocationRequest.setFastestInterval(101);
                     broLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-                    ArrayList<Event> eventCopyList = databaseManager.getEventUpdater().getEventArray();
-
-                    for(Event item: eventCopyList){
-                        Location eventLocation;
-                        eventLocation = new Location("eventLocation");
-                        eventLocation.setLatitude(item.getLocation_Lat());
-                        eventLocation.setLongitude(item.getLocation_Lng());
-                    }
-
-                    //eventLocation is not defined. What?!
-//                    if(broLocation.distanceTo(eventLocation) <= progress){
-//
-//                    }
-
                 }
+
+            ArrayList<Event> sortEventsByDistance = databaseManager.getEventUpdater().getEventArray();
+            ArrayList<Event> eventDistanceArray = new ArrayList<>();
+
+            if(eventDistanceArray.size() >= 0) {
+                eventDistanceArray.clear();
+            }
+
+            for(Event item : sortEventsByDistance){
+
+                int distance = item.getDistance();
+                if(distance<=progress){
+                        eventDistanceArray.add(item);
+                }
+            }
+
+            EventAdapter eventDistanceAdapter = new EventAdapter(MainActivity.this, eventDistanceArray);
+            eventListView.setAdapter(eventDistanceAdapter);
+
             }
         });
     }

@@ -17,7 +17,7 @@ public class DetailedActivity extends MainActivity {
 
         Bundle bundle = getIntent().getExtras();
         int tempPosition = bundle.getInt("eventName");
-        Event event = getItem(tempPosition);
+        //Event event = getItem(tempPosition);
 
         TextView textView = findViewById(R.id.eventDescription);
         //textView.setText();

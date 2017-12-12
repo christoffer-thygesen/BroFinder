@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.ListView;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Place;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -17,7 +18,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by stoff on 01-12-2017.
@@ -41,6 +44,8 @@ public class DatabaseManager {
     private UserUpdater userUpdater;
     private CommentUpdater commentUpdater;
 
+    private GoogleApiClient googleApiClient;
+
     private DatabaseManager(Context context) {
         this.context = context;
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -61,9 +66,9 @@ public class DatabaseManager {
     }
 
     //init this in main
-    public void initialize(Activity activity, ListView eventListView) {
+    public void initialize(Activity activity, ListView eventListView, GoogleApiClient googleApiClient) {
         //init updaters
-        eventUpdater = new EventUpdater(activity, eventListView);
+        eventUpdater = new EventUpdater(activity, eventListView, googleApiClient);
         userUpdater = new UserUpdater(activity);
         commentUpdater = new CommentUpdater(activity);
 
@@ -124,8 +129,11 @@ public class DatabaseManager {
         double lng = location.getLatLng().longitude;
         String eventID = createEventID();
 
-        Event event = new Event(eventID, title, desc,
-                creator, day, month, year, hour, minute, lat, lng, null);
+
+
+
+
+        Event event = new Event(eventID, title, desc, creator, day, month, year, hour, minute, lat, lng);
 
         databaseEvents.child(eventID).setValue(event);
     }
@@ -147,5 +155,9 @@ public class DatabaseManager {
     public String createEventID()
     {
         return databaseEvents.push().getKey();
+    }
+
+    public String distance(){
+        return databaseEvents.push().toString();
     }
 }

@@ -11,6 +11,7 @@ import java.util.Map;
 
 public class Event implements Serializable {
 
+    private int distance;
     private String id;
     private String title;
     private String desc;
@@ -29,7 +30,7 @@ public class Event implements Serializable {
 
     public Event() {}
 
-    public Event(String id, String title, String desc, String creator, int day, int month, int year, int hour, int minute, double location_Lat, double location_Lng, List<Comment> commentList) {
+    public Event(String id, String title, String desc, String creator, int day, int month, int year, int hour, int minute, double location_Lat, double location_Lng) {
         this.id = id;
         this.title = title;
         this.desc = desc;
@@ -132,6 +133,10 @@ public class Event implements Serializable {
         this.location_Lng = location_Lng;
     }
 
+    public void setDistance(int distance){this.distance = distance;}
+
+    public int getDistance(){return distance;}
+
     public List<Comment> getCommentList() {
         return commentList;
     }
@@ -155,6 +160,7 @@ public class Event implements Serializable {
                 ", location_Lat=" + location_Lat +
                 ", location_Lng=" + location_Lng +
                 ", commentList=" + commentList +
+                ", distance=" + distance +
                 '}';
     }
 
@@ -171,6 +177,7 @@ public class Event implements Serializable {
         result.put("minute", minute);
         result.put("location_Lat", location_Lat);
         result.put("location_Lng", location_Lng);
+        result.put("Distance", distance);
         return result;
     }
 }
