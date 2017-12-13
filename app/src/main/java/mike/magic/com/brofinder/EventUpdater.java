@@ -40,7 +40,7 @@ public class EventUpdater {
         this.googleApiClient = googleApiClient;
         eventArray = new ArrayList<>();
         eventAdapter = new EventAdapter(activity, eventArray);
-       // eventListView.setAdapter(eventAdapter); commented out because we need events on distance
+        eventListView.setAdapter(eventAdapter); //commented out because we need events on distance
 
         eventListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -82,7 +82,6 @@ public class EventUpdater {
             item.setDistance(local2);
         }
         return item;
-
     }
 
     public void addEvent(Event event) {
@@ -111,6 +110,7 @@ public class EventUpdater {
                         item.setLocation_Lat(event.getLocation_Lat());
                         item.setLocation_Lng(event.getLocation_Lng());
                         item.setDistance(event.getDistance());
+                        item.setCommentList(event.getCommentList());
                     }
                 }
             }

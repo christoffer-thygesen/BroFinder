@@ -65,6 +65,10 @@ public class DatabaseManager {
         }
     }
 
+    public UserUpdater getUserUpdater() {
+        return userUpdater;
+    }
+
     //init this in main
     public void initialize(Activity activity, ListView eventListView, GoogleApiClient googleApiClient) {
         //init updaters
@@ -117,25 +121,6 @@ public class DatabaseManager {
         return currentUser;
     }
 
-    public boolean hasChildComments(Event event){
-        return false;
-    }
-
-  /*  public ArrayList<User> getAllUsers(String user) {
-        ArrayList<User> allOfDemUsers = new ArrayList<>();
-        User currentUser = new User();
-        if(user != null) {
-            for(User item : userUpdater.getUserArray()) {
-                if(item.getId() != null) {
-                    if(item.getId().equals(user)) {
-                        currentUser = item;
-                    }
-                }
-            }
-        }
-        return allOfDemUsers;
-    } */
-
     public void addEvent(String title, String desc, String creator,
                          Calendar calendar, Place location) {
 
@@ -148,13 +133,13 @@ public class DatabaseManager {
         double lng = location.getLatLng().longitude;
         String eventID = createEventID();
 
-
-
-
-
         Event event = new Event(eventID, title, desc, creator, day, month, year, hour, minute, lat, lng);
 
         databaseEvents.child(eventID).setValue(event);
+    }
+
+    public void addComment(Comment comment, String eventID) {
+        databaseEvents.child(eventID).child("comments").push().setValue(comment);
     }
 
     public void destroy() {
@@ -174,9 +159,5 @@ public class DatabaseManager {
     public String createEventID()
     {
         return databaseEvents.push().getKey();
-    }
-
-    public String distance(){
-        return databaseEvents.push().toString();
     }
 }

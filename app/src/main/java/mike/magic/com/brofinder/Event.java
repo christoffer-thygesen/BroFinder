@@ -42,7 +42,6 @@ public class Event implements Serializable {
         this.minute = minute;
         this.location_Lat = location_Lat;
         this.location_Lng = location_Lng;
-        this.commentList = commentList;
     }
 
     public String getId() {

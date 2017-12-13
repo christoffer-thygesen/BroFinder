@@ -26,11 +26,10 @@ public class EventEventListener implements ChildEventListener {
         ArrayList<Comment> list = new ArrayList<>();
 
         for (DataSnapshot item : dataSnapshot.child("comments").getChildren()) {
-            String username = String.valueOf(item.child("username").getValue());
+            String username = String.valueOf(item.child("usernameID").getValue());
             String comment = String.valueOf(item.child("comment").getValue());
             Comment tempCom = new Comment(username, comment);
             list.add(tempCom);
-            Log.i("here", dataSnapshot.getValue().toString());
         }
         event.setCommentList(list);
 
@@ -45,6 +44,15 @@ public class EventEventListener implements ChildEventListener {
     @Override
     public void onChildChanged(DataSnapshot dataSnapshot, String s) {
         Event event = dataSnapshot.getValue(Event.class);
+        ArrayList<Comment> list = new ArrayList<>();
+
+        for (DataSnapshot item : dataSnapshot.child("comments").getChildren()) {
+            String username = String.valueOf(item.child("usernameID").getValue());
+            String comment = String.valueOf(item.child("comment").getValue());
+            Comment tempCom = new Comment(username, comment);
+            list.add(tempCom);
+        }
+        event.setCommentList(list);
 
         if(eventUpdater != null) {
             eventUpdater.updateEvent(event);

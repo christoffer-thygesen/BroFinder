@@ -137,6 +137,8 @@ public class CreateEventActivity extends AppCompatActivity {
                 creator = broAuth.getCurrentUser().getUid();
 
                 databaseManager.addEvent(title, desc, creator, myCalendar, location);
+                Toast.makeText(CreateEventActivity.this, "Event created", Toast.LENGTH_SHORT).show();
+                finish();
             }
         });
     }

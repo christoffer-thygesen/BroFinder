@@ -1,66 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="wrap_content"
     android:layout_marginTop="5dp">
 
     <TextView
         android:id="@+id/eventDate"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:text="Date" />
+        android:text="Date"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/eventTime"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventTitle" />
 
     <TextView
         android:id="@+id/eventTime"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="35dp"
         android:layout_alignParentTop="true"
         android:layout_toEndOf="@+id/eventDate"
-        android:text="Time" />
+        android:text="Time"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/eventLocation"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/eventDate"
+        app:layout_constraintTop_toBottomOf="@+id/eventTitle" />
 
     <TextView
         android:id="@+id/eventTitle"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="37dp"
         android:layout_alignParentTop="true"
+        android:layout_marginTop="4dp"
         android:layout_toEndOf="@+id/eventTime"
-        android:text="Title" />
+        android:gravity="center"
+        android:text="Title"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/eventLocation"
-        android:layout_width="75dp"
-        android:layout_height="50dp"
+        android:layout_width="0dp"
+        android:layout_height="31dp"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:text="Location" />
+        android:text="Location"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/eventTime"
+        app:layout_constraintTop_toBottomOf="@+id/eventTitle" />
 
-    <TextView
-        android:id="@+id/eventDescription"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/eventDate"
-        android:text="Description" />
-
-    <TextView
-        android:id="@+id/eventsParticipants"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_alignBaseline="@+id/eventDescription"
-        android:layout_alignBottom="@+id/eventDescription"
-        android:layout_toEndOf="@+id/eventDescription"
-        android:text="Participants" />
-
-    <TextView
-        android:id="@+id/eventDistance"
-        android:layout_width="100dp"
-        android:layout_height="50dp"
-        android:layout_alignBaseline="@+id/eventsParticipants"
-        android:layout_alignBottom="@+id/eventsParticipants"
-        android:layout_toEndOf="@+id/eventsParticipants"
-        android:text="Distance" />
-</RelativeLayout>
+</android.support.constraint.ConstraintLayout>

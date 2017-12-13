@@ -6,45 +6,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toptoolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        app:title="Bro Finder" />
+
     <TextView
         android:id="@+id/eventTime"
         android:layout_width="110dp"
         android:layout_height="40dp"
-        android:layout_marginEnd="32dp"
-        android:background="@drawable/back"
-        android:text="fsdfs"
-        app:layout_constraintBaseline_toBaselineOf="@+id/EventPlace"
-        app:layout_constraintEnd_toEndOf="parent" />
-
-    <TextView
-        android:id="@+id/eventTitle"
-        android:layout_width="350dp"
-        android:layout_height="40dp"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:background="@drawable/back"
+        android:gravity="center_vertical"
+        android:text="Time"
+        app:layout_constraintBottom_toTopOf="@+id/eventCreator"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/eventPlace" />
+
+    <TextView
+        android:id="@+id/eventPlace"
+        android:layout_width="231dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
         android:background="@drawable/back"
         android:gravity="center_vertical"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toTopOf="@+id/EventPlace"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:text="IamLocation"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.253" />
-
-    <TextView
-        android:id="@+id/EventPlace"
-        android:layout_width="225dp"
-        android:layout_height="40dp"
-        android:layout_marginBottom="20dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:background="@drawable/back"
-        app:layout_constraintBottom_toTopOf="@+id/eventDescription"
-        app:layout_constraintEnd_toStartOf="@+id/eventTime"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/eventDescription" />
 
     <TextView
         android:id="@+id/eventDescription"
@@ -52,13 +48,13 @@
         android:layout_height="150dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginBottom="32dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/back"
-        app:layout_constraintBottom_toTopOf="@+id/eventCreator"
+        android:text="Description"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toptoolbar" />
 
     <TextView
         android:id="@+id/eventCreator"
@@ -66,35 +62,35 @@
         android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_below="@+id/eventDescription"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/back"
+        android:gravity="center_vertical"
         android:text="Creator"
-        app:layout_constraintBottom_toTopOf="@+id/ButtonForComment"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventPlace" />
 
     <ListView
         android:id="@+id/CommentListView"
-        android:layout_width="350dp"
-        android:layout_height="152dp"
+        android:layout_width="358dp"
+        android:layout_height="185dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonForComment" />
 
     <Button
-        android:id="@+id/ButtonForComment"
+        android:id="@+id/buttonForComment"
         android:layout_width="347dp"
         android:layout_height="45dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:text="Add coment"
-        app:layout_constraintBottom_toTopOf="@+id/CommentListView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/eventCreator" />
 </android.support.constraint.ConstraintLayout>
