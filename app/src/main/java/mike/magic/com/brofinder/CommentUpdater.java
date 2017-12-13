@@ -22,7 +22,8 @@ public class CommentUpdater {
         if(commentList != null) {
             commentsArray.add(commentList);
         } else {
-            //commentsUpdater not set
+            //commentsUpdater not set  // create the array and add the comment
+
         }
     }
 }

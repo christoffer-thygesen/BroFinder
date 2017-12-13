@@ -184,8 +184,8 @@ public class MainActivity extends AppCompatActivity
             ArrayList<Event> eventDistanceArray = new ArrayList<>();
 
             if(eventDistanceArray.size() >= 0) {
-                eventDistanceArray.removeAll(eventDistanceArray);
                 eventDistanceArray.clear();
+                eventDistanceArray.removeAll(eventDistanceArray);
             }
 
             for(Event item : sortEventsByDistance){
@@ -304,6 +304,8 @@ public class MainActivity extends AppCompatActivity
                 .addApi(LocationServices.API)
                 .build();
     }
+
+
 
 
 }
